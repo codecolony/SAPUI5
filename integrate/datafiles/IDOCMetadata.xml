@@ -1,0 +1,327 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdapterTypeMetaData Name="IDOC" version="1.0">
+	<Inbound>
+		<TransportProtocol>
+			<Name>tRFC</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">tRFC</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>gatewayhost</ReferenceName>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>gatewayservice</ReferenceName>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>programId</ReferenceName>						
+						</AttributeReference>						
+						<AttributeReference>
+							<ReferenceName>targethost</ReferenceName>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>client</ReferenceName>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>systemnumber</ReferenceName>						
+						</AttributeReference>	
+						<AttributeReference>
+							<ReferenceName>username</ReferenceName>						
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>password</ReferenceName>						
+						</AttributeReference>																	
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>IDoc</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<TransportProtocol>
+			<Name>HTTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">HTTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>address</ReferenceName>
+							<Restriction>(/\w+.*_*)+</Restriction>
+							<ErrorMessage>Enter a valid address. E.g. /file/test</ErrorMessage>
+							<description>Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”</description></AttributeReference>
+						<AttributeReference>
+							<ReferenceName>wsdlURL</ReferenceName>
+							<!-- <Restriction>/{0,1}\w+(/\w+)*.wsdl</Restriction>
+							<ErrorMessage>Enter a valid url. E.g. /file/test/sample.wsdl</ErrorMessage> -->
+							<Restriction>^$|(/?)(wsdl/){1}([A-Za-z0-9_.]+)(.(?i)wsdl)$</Restriction>
+							<ErrorMessage>Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl</ErrorMessage>
+							<description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>IDoc SOAP</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>		
+		<MessageProtocol>
+			<Name>IDoc</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">IDoc</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>			
+		<MessageProtocol>
+			<Name>IDoc SOAP</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">IDoc SOAP</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Inbound>
+	<Outbound>
+			<TransportProtocol>
+			<Name>tRFC</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">tRFC</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>targethost</ReferenceName>
+							<description></description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>client</ReferenceName>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>systemnumber</ReferenceName>						
+						</AttributeReference>	
+						<AttributeReference>
+							<ReferenceName>username</ReferenceName>						
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>password</ReferenceName>						
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>IDoc</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<TransportProtocol>
+			<Name>HTTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">HTTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+					<AttributeReference>
+						<ReferenceName>address</ReferenceName>
+						<Restriction>^(http(s)*://){1}(.)++</Restriction>
+						<ErrorMessage>Enter a valid address. E.g. https://servername:port/sap/bc/srt/idoc?sap-client=number</ErrorMessage>
+						<description>Endpoint address on which the ESB Bus posts the outgoing message, for example “https://servername:port/sap/bc/srt/idoc?sap-client=number”</description>
+					</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>IDoc SOAP</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>		
+		<MessageProtocol>
+			<Name>IDoc</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">IDoc</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>		
+		<MessageProtocol>
+			<Name>IDoc SOAP</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">IDoc SOAP</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Outbound>
+	<Attribute>
+		<Name namespace="">address</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<isparameterized>true</isparameterized>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Address</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">gatewayhost</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Gateway Host</Label>
+		</GuiLabels>
+	</Attribute>	
+	<Attribute>
+		<Name namespace="">gatewayservice</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Gateway Service</Label>
+		</GuiLabels>
+	</Attribute>	
+	<Attribute>
+		<Name namespace="">programId</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Program Id</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">targethost</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Target Host</Label>
+		</GuiLabels>
+	</Attribute>	
+	<Attribute>
+		<Name namespace="">client</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Client</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">systemnumber</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">System Number</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">username</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>		
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Username</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute isPassword="true">
+		<Name>password</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>	
+      	<Length>0</Length>
+		<GuiLabels>
+			<Label language="EN">Password</Label>
+		</GuiLabels>
+	</Attribute>					
+	<Attribute>
+		<Name namespace="">wsdlURL</Name>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<HelpService>
+			<HelpServiceName>wsdlURL</HelpServiceName>
+			<HelpServiceQueryAttributes>
+				<HelpServiceQueryAttribute>
+               		<Name>Type</Name>
+               		<Value>WSDL</Value>
+           	 	</HelpServiceQueryAttribute>
+				<HelpServiceQueryAttribute>
+               		<Name>DataPart.XIHeader.SystemType</Name>
+               		<Value>ALL</Value>
+           	 	</HelpServiceQueryAttribute>
+			</HelpServiceQueryAttributes>
+		</HelpService>
+		<GuiLabels>
+			<Label language="EN">URL to WSDL</Label>
+		</GuiLabels>
+	</Attribute>
+
+	<TabDefinition id="general">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+			<Label language="EN">General</Label>
+			<Label language="DE">General</Label>
+		</GuiLabels>
+	</TabDefinition>
+</AdapterTypeMetaData>

@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdapterTypeMetaData Name="SFTP" version="1.0">
+	<Inbound>
+		<TransportProtocol>
+			<Name>SFTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">SFTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="source">
+					<AttributeGroup>
+						<Name>ftp.system</Name>
+						<GuiLabels>
+							<Label language="EN">File Access Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>path</ReferenceName>
+							<description>File path from where the file should be read, for example, &lt;dir&gt;/&lt;subdir&gt;</description></AttributeReference>
+						<AttributeReference>
+							<ReferenceName>fileName</ReferenceName>
+							<description>Name of the file to be read.&#10;Blank field indicates all the files in the specified directory are read.</description>
+						</AttributeReference>
+					</AttributeGroup>
+					<AttributeGroup>
+						<Name>ftp.connection</Name>
+						<GuiLabels>
+							<Label language="EN">Connection Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>host</ReferenceName>
+							<description>Host name or IP address of the FTP Server and an optional port (e.g. wdfd00213123:22).</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>username</ReferenceName>
+							<description>ID of the user performing the file transfer</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>connectTimeout</ReferenceName>
+							<description>Maximum waiting time taken to contact the FTP server while establishing connection or performing a read operation. Default value: 10000 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>maximumReconnectAttempts</ReferenceName>
+							<description>Maximum number of attempts allowed to reconnect to the FTP server.&#10;Default value: 3. Use "0" to disable this behavior.</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>reconnectDelay</ReferenceName>
+							<description>Time period to wait before attempting to reconnect to the remote FTP server.&#10;Default value: 1000 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>disconnect</ReferenceName>
+							<description>Disconnect from SFTP server after each message processing</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+				<Tab id="processing">
+					<AttributeGroup>
+						<Name>file.processing</Name>
+						<GuiLabels>
+							<Label language="EN">Processing Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>readLock</ReferenceName>
+							<description>Specifies the read-lock strategy during polling. Available options are:&#10;None- No read locks.&#10;Rename- Rename the file.&#10;Content Change- Detect whether the file is currently being copied to target location or not</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>stepwise</ReferenceName>
+							<description>Changes directory levels one at a time</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>recursive</ReferenceName>
+							<description>Allows to look for files in all the sub-directories of the directory</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>noop</ReferenceName>
+							<description>Enables an idempotent repository to avoid a file from being consumed twice.&#10;Select this option for SFTP servers that do not allow deleting or moving files, but the files require to be read only once.</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>idempotentRepository</ReferenceName>
+							<!--  <description>In Memory: Keeps the filenames in the memory. Files are read again from the SFTP server, when the worker node is restarted.&#10;Database: Stores the filenames in database to prevent the files from being read again, when the worker node is restarted. Filename entries are deleted by default after 90 days.</description> -->
+							<description>In Memory: Keeps the filenames in the memory. Files are read again from the SFTP server, when the worker node is restarted.</description>
+                        <EditCondition>
+                           <AttributeName>noop</AttributeName>
+                           <AttributeValue>1</AttributeValue>
+                        </EditCondition>
+                   
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>delete</ReferenceName>
+                        <EditCondition>
+                           <AttributeName>noop</AttributeName>
+                           <AttributeValue>0</AttributeValue>
+                        </EditCondition>
+                        <description>If true, the file is deleted after it is read</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>retryAlertThreshold</ReferenceName>
+							<description>If the number of attempts to poll a message from SFTP server exceeds the retry threshold, an alert is raised.&#10;Default value '0' indicates that alert is not raised on error.</description>
+						</AttributeReference>
+					</AttributeGroup>
+					<AttributeGroup>
+						<Name>file.processing.delay</Name>
+						<GuiLabels>
+							<Label language="EN">Delay Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>initialDelay</ReferenceName>
+							<description>Delay before the polling of files starts. Default: 1000 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>delay</ReferenceName>
+							<description>Delay before the next polling of files starts. Default: 500 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>useFixedDelay</ReferenceName>
+							<description>Controls if fixed delay or fixed rate is used</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+				<Tab id="advanced">
+					<AttributeGroup>
+						<Name>file.advanced</Name>
+						<GuiLabels>
+							<Label language="EN">Advanced Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>bufferSize</ReferenceName>
+							<description>Write file content using the mentioned buffer size. Default: 128 KB</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>runLoggingLevel</ReferenceName>
+							<description>Logs a start/complete log line on polling. Default: TRACE</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>maxMessagesPerPoll</ReferenceName>
+							<description>Maximum messages to gather per poll.&#10;Default: 0 Example:1000 can be set as a limit</description>
+						</AttributeReference>
+						<!-- <AttributeReference>
+							<ReferenceName>additionalArguments</ReferenceName>
+							<description>Allows you to add additional parameters with values to configure the sender SFTP connector, separate multiple parameters using '&amp;' &#10;Accepted format: &amp;parameter=value</description>
+						</AttributeReference>-->
+						<AttributeReference>
+							<ReferenceName>flatten</ReferenceName>
+							<description>Flatten the file path by removing the directory levels so that only the file names are considered and they are written under a single directory.</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>File</Name>
+					<Version>1.0</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<MessageProtocol>
+			<Name>File</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">File</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Inbound>
+	<Outbound>
+		<TransportProtocol>
+			<Name>SFTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">SFTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="target">
+					<AttributeGroup>
+						<Name>ftp.system</Name>
+						<GuiLabels>
+							<Label language="EN">File Access Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>path</ReferenceName>
+							<description>File path from where the file should be written, for example, &lt;dir&gt;/&lt;subdir&gt;</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>fileName</ReferenceName>
+							<description>Name of the file to be written</description>
+						</AttributeReference>
+					</AttributeGroup>
+					<AttributeGroup>
+						<Name>ftp.connection</Name>
+						<GuiLabels>
+							<Label language="EN">Connection Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>host</ReferenceName>
+							<description>Host name or IP address of the FTP Server</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>username</ReferenceName>
+							<description>ID of the user performing the file transfer</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>connectTimeout</ReferenceName>
+							<description>Maximum waiting time taken to contact the FTP server while establishing connection or performing a read operation.&#10;Default value: 10000 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>maximumReconnectAttempts</ReferenceName>
+							<description>Maximum number of attempts allowed to reconnect to the FTP server.&#10;Default value: 3 Use "0" to disable this behavior</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>reconnectDelay</ReferenceName>
+							<description>Time period to wait before attempting to reconnect to the remote FTP server.&#10;Default value: 1000 ms</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>disconnect</ReferenceName>
+							<description>Disconnect from SFTP server after each message processing</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+				<Tab id="processing">
+					<AttributeGroup>
+						<Name>file.processing</Name>
+						<GuiLabels>
+							<Label language="EN">Processing Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>stepwise</ReferenceName>
+							<description>Changes directory levels one at a time</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>autoCreate</ReferenceName>
+							<description>Automatically creates missing directory levels as provided in the file's pathname</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>fileExist</ReferenceName>
+							<description>If file already exists in the target, allow to:&#10;Override- Replace the existing file content with the new one.&#10;Append- Add the new file content to the end of the existing one.&#10;Fail- Do not perform any action and raise a failure.&#10;Ignore- Do not perform any action</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+				<Tab id="advanced">
+					<AttributeGroup>
+						<Name>file.advanced</Name>
+						<GuiLabels>
+							<Label language="EN">Advanced Parameters</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>bufferSize</ReferenceName>
+							<description>Write file content using the mentioned buffer size. Default: 128 KB</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>runLoggingLevel</ReferenceName>
+							<description>Logs a start/complete log line on polling. Default: TRACE</description>
+						</AttributeReference>
+						<!--<AttributeReference>
+							<ReferenceName>additionalArguments</ReferenceName>
+							<description>Allows you to add additional parameters with values to configure the receiver SFTP connector, separate multiple parameters using '&amp;' &#10;Accepted format: &amp;parameter=value</description>
+						</AttributeReference>-->
+						<AttributeReference>
+							<ReferenceName>flatten</ReferenceName>
+							<description>Flatten the file path by removing the directory levels so that only the file names are considered and they are written under a single directory.</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>sftpSecEnabled</ReferenceName>
+							<description>Replaces the header with the message unique ID, if the header contains any path traversals such as \..\ or /../..</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>File</Name>
+					<Version>1.0</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<MessageProtocol>
+			<Name>File</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">File</Label>
+			</GuiLabels>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Outbound>
+	<Attribute>
+		<Name namespace="">host</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Server Host</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">path</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Directory</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">username</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">User Name</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">strictHostKeyChecking</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Strict Host Key Checking</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>YES</value>
+			<GuiLabels guid="fc5eca92f02011d8ba97eaf70a126329"
+				resourceId="com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE">
+				<Label language="EN">Yes</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>NO</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">No</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">maximumReconnectAttempts</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>3</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Maximum Reconnect Attempts</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">reconnectDelay</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>1000</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Reconnect Delay (in ms)</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">connectTimeout</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>10000</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Connection Timeout (in ms)</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">stepwise</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Traverse Directories Stepwise</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">chmod</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">CHMOD</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">autoCreate</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Automatically Create Directories</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">bufferSize</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>128</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Buffer Size (in KB)</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">fileName</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">File Name</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">flatten</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Flatten Filenames</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">initialDelay</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>1000</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Initial Delay(milliseconds)</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">delay</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>500</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Delay(milliseconds)</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">useFixedDelay</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Use Fixed Delay</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">runLoggingLevel</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default>TRACE</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Run Logging Level</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>TRACE</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Trace</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>INFO</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Info</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>IGNORE</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Ignore</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>WARNING</value>
+			<GuiLabels guid="fc5eca92f02011d8ba97eaf70a126329"
+				resourceId="com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE">
+				<Label language="EN">Warning</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">readLock</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default>none</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Read Lock Strategy</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>none</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">None</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>rename</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Rename</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>change</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Content Change</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">recursive</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Recursive</Label>
+		</GuiLabels>
+	</Attribute>
+<!-- 	<Attribute> -->
+<!-- 		<Name namespace="">additionalArguments</Name> -->
+<!-- 		<Usage>optional</Usage> -->
+<!-- 		<DataType>xsd:string</DataType> -->
+<!-- 		<Default></Default> -->
+<!-- 		<Length /> -->
+<!-- 		<GuiLabels> -->
+<!-- 			<Label language="EN">Additional Arguments</Label> -->
+<!-- 		</GuiLabels> -->
+<!-- 	</Attribute> -->
+	<Attribute>
+		<Name namespace="">delete</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Delete After Processing</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">sftpSecEnabled</Name>
+		<Usage>mandatory</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Prevent backward path traversal </Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">noop</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">No Operations After Processing</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">disconnect</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Disconnect After Processing</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">idempotentRepository</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Noop</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">maxMessagesPerPoll</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>0</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Maximum Messages Per Poll</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">retryAlertThreshold</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>0</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Alert Threshold for Retry</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">fileExist</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default>Override</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">File Exist</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>Override</value>
+			<GuiLabels guid="fc5eca92f02011d8ba97eaf70a126329"
+				resourceId="com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE">
+				<Label language="EN">Override</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>Append</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Append</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>Fail</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Fail</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>Ignore</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Ignore</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">idempotentRepository</Name>
+		<Usage>optional</Usage>
+		<DataType>xsd:string</DataType>
+		<Default>inMemory</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Idempotent Repository</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>inMemory</value>
+			<GuiLabels guid="fc5eca92f02011d8ba97eaf70a126329"
+				resourceId="com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE">
+				<Label language="EN">In Memory</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>database</value>
+			<GuiLabels guid="fc5eca93f02011d88d1eeaf70a126329"
+				resourceId="ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT">
+				<Label language="EN">Database</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+
+
+	<TabDefinition id="source">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_SRC">
+			<Label language="EN">Source</Label>
+		</GuiLabels>
+	</TabDefinition>
+	<TabDefinition id="target">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_TGT">
+			<Label language="EN">Target</Label>
+		</GuiLabels>
+	</TabDefinition>
+	<TabDefinition id="processing">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_PRO">
+			<Label language="EN">Processing</Label>
+		</GuiLabels>
+	</TabDefinition>
+	<TabDefinition id="advanced">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_ADV">
+			<Label language="EN">Advanced</Label>
+		</GuiLabels>
+	</TabDefinition>
+</AdapterTypeMetaData>

@@ -1,0 +1,1023 @@
+{
+   "@Name": "SFTP",
+   "@version": "1.0",
+   "Inbound": {
+      "TransportProtocol": {
+         "Name": "SFTP",
+         "Version": "1.0",
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "SFTP"
+            }
+         ],
+         "ChannelAttributes": [
+            {
+               "@id": "source",
+               "AttributeGroup": [
+                  {
+                     "Name": "ftp.system",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "File Access Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "path",
+                           "description": "File path from where the file should be read, for example, <dir>/<subdir>"
+                        },
+                        {
+                           "ReferenceName": "fileName",
+                           "description": "Name of the file to be read.\nBlank field indicates all the files in the specified directory are read."
+                        }
+                     ]
+                  },
+                  {
+                     "Name": "ftp.connection",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "Connection Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "host",
+                           "description": "Host name or IP address of the FTP Server and an optional port (e.g. wdfd00213123:22)."
+                        },
+                        {
+                           "ReferenceName": "username",
+                           "description": "ID of the user performing the file transfer"
+                        },
+                        {
+                           "ReferenceName": "connectTimeout",
+                           "description": "Maximum waiting time taken to contact the FTP server while establishing connection or performing a read operation. Default value: 10000 ms"
+                        },
+                        {
+                           "ReferenceName": "maximumReconnectAttempts",
+                           "description": "Maximum number of attempts allowed to reconnect to the FTP server.\nDefault value: 3. Use \"0\" to disable this behavior."
+                        },
+                        {
+                           "ReferenceName": "reconnectDelay",
+                           "description": "Time period to wait before attempting to reconnect to the remote FTP server.\nDefault value: 1000 ms"
+                        },
+                        {
+                           "ReferenceName": "disconnect",
+                           "description": "Disconnect from SFTP server after each message processing"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "@id": "processing",
+               "AttributeGroup": [
+                  {
+                     "Name": "file.processing",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "Processing Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "readLock",
+                           "description": "Specifies the read-lock strategy during polling. Available options are:\nNone- No read locks.\nRename- Rename the file.\nContent Change- Detect whether the file is currently being copied to target location or not"
+                        },
+                        {
+                           "ReferenceName": "stepwise",
+                           "description": "Changes directory levels one at a time"
+                        },
+                        {
+                           "ReferenceName": "recursive",
+                           "description": "Allows to look for files in all the sub-directories of the directory"
+                        },
+                        {
+                           "ReferenceName": "noop",
+                           "description": "Enables an idempotent repository to avoid a file from being consumed twice.\nSelect this option for SFTP servers that do not allow deleting or moving files, but the files require to be read only once."
+                        },
+                        {
+                           "ReferenceName": "idempotentRepository",
+                           "description": "In Memory: Keeps the filenames in the memory. Files are read again from the SFTP server, when the worker node is restarted.",
+                           "EditCondition": {
+                              "AttributeName": "noop",
+                              "AttributeValue": "1"
+                           }
+                        },
+                        {
+                           "ReferenceName": "delete",
+                           "EditCondition": {
+                              "AttributeName": "noop",
+                              "AttributeValue": "0"
+                           },
+                           "description": "If true, the file is deleted after it is read"
+                        },
+                        {
+                           "ReferenceName": "retryAlertThreshold",
+                           "description": "If the number of attempts to poll a message from SFTP server exceeds the retry threshold, an alert is raised.\nDefault value '0' indicates that alert is not raised on error."
+                        }
+                     ]
+                  },
+                  {
+                     "Name": "file.processing.delay",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "Delay Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "initialDelay",
+                           "description": "Delay before the polling of files starts. Default: 1000 ms"
+                        },
+                        {
+                           "ReferenceName": "delay",
+                           "description": "Delay before the next polling of files starts. Default: 500 ms"
+                        },
+                        {
+                           "ReferenceName": "useFixedDelay",
+                           "description": "Controls if fixed delay or fixed rate is used"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "@id": "advanced",
+               "AttributeGroup": {
+                  "Name": "file.advanced",
+                  "GuiLabels": [
+                     {
+                        "@language": "EN",
+                        "#text": "Advanced Parameters"
+                     }
+                  ],
+                  "AttributeReference": [
+                     {
+                        "ReferenceName": "bufferSize",
+                        "description": "Write file content using the mentioned buffer size. Default: 128 KB"
+                     },
+                     {
+                        "ReferenceName": "runLoggingLevel",
+                        "description": "Logs a start/complete log line on polling. Default: TRACE"
+                     },
+                     {
+                        "ReferenceName": "maxMessagesPerPoll",
+                        "description": "Maximum messages to gather per poll.\nDefault: 0 Example:1000 can be set as a limit"
+                     },
+                     {
+                        "ReferenceName": "flatten",
+                        "description": "Flatten the file path by removing the directory levels so that only the file names are considered and they are written under a single directory."
+                     }
+                  ]
+               }
+            }
+         ],
+         "SecurityAttributes": [],
+         "ValidMessageProtocols": [
+            {
+               "Name": "File",
+               "Version": "1.0"
+            }
+         ]
+      },
+      "MessageProtocol": {
+         "Name": "File",
+         "Version": "1.0",
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "File"
+            }
+         ],
+         "SecurityAttributes": []
+      },
+      "GlobalChannelAttributes": ""
+   },
+   "Outbound": {
+      "TransportProtocol": {
+         "Name": "SFTP",
+         "Version": "1.0",
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "SFTP"
+            }
+         ],
+         "ChannelAttributes": [
+            {
+               "@id": "target",
+               "AttributeGroup": [
+                  {
+                     "Name": "ftp.system",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "File Access Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "path",
+                           "description": "File path from where the file should be written, for example, <dir>/<subdir>"
+                        },
+                        {
+                           "ReferenceName": "fileName",
+                           "description": "Name of the file to be written"
+                        }
+                     ]
+                  },
+                  {
+                     "Name": "ftp.connection",
+                     "GuiLabels": [
+                        {
+                           "@language": "EN",
+                           "#text": "Connection Parameters"
+                        }
+                     ],
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "host",
+                           "description": "Host name or IP address of the FTP Server"
+                        },
+                        {
+                           "ReferenceName": "username",
+                           "description": "ID of the user performing the file transfer"
+                        },
+                        {
+                           "ReferenceName": "connectTimeout",
+                           "description": "Maximum waiting time taken to contact the FTP server while establishing connection or performing a read operation.\nDefault value: 10000 ms"
+                        },
+                        {
+                           "ReferenceName": "maximumReconnectAttempts",
+                           "description": "Maximum number of attempts allowed to reconnect to the FTP server.\nDefault value: 3 Use \"0\" to disable this behavior"
+                        },
+                        {
+                           "ReferenceName": "reconnectDelay",
+                           "description": "Time period to wait before attempting to reconnect to the remote FTP server.\nDefault value: 1000 ms"
+                        },
+                        {
+                           "ReferenceName": "disconnect",
+                           "description": "Disconnect from SFTP server after each message processing"
+                        }
+                     ]
+                  }
+               ]
+            },
+            {
+               "@id": "processing",
+               "AttributeGroup": {
+                  "Name": "file.processing",
+                  "GuiLabels": [
+                     {
+                        "@language": "EN",
+                        "#text": "Processing Parameters"
+                     }
+                  ],
+                  "AttributeReference": [
+                     {
+                        "ReferenceName": "stepwise",
+                        "description": "Changes directory levels one at a time"
+                     },
+                     {
+                        "ReferenceName": "autoCreate",
+                        "description": "Automatically creates missing directory levels as provided in the file's pathname"
+                     },
+                     {
+                        "ReferenceName": "fileExist",
+                        "description": "If file already exists in the target, allow to:\nOverride- Replace the existing file content with the new one.\nAppend- Add the new file content to the end of the existing one.\nFail- Do not perform any action and raise a failure.\nIgnore- Do not perform any action"
+                     }
+                  ]
+               }
+            },
+            {
+               "@id": "advanced",
+               "AttributeGroup": {
+                  "Name": "file.advanced",
+                  "GuiLabels": [
+                     {
+                        "@language": "EN",
+                        "#text": "Advanced Parameters"
+                     }
+                  ],
+                  "AttributeReference": [
+                     {
+                        "ReferenceName": "bufferSize",
+                        "description": "Write file content using the mentioned buffer size. Default: 128 KB"
+                     },
+                     {
+                        "ReferenceName": "runLoggingLevel",
+                        "description": "Logs a start/complete log line on polling. Default: TRACE"
+                     },
+                     {
+                        "ReferenceName": "flatten",
+                        "description": "Flatten the file path by removing the directory levels so that only the file names are considered and they are written under a single directory."
+                     },
+                     {
+                        "ReferenceName": "sftpSecEnabled",
+                        "description": "Replaces the header with the message unique ID, if the header contains any path traversals such as \\..\\ or /../.."
+                     }
+                  ]
+               }
+            }
+         ],
+         "SecurityAttributes": [],
+         "ValidMessageProtocols": [
+            {
+               "Name": "File",
+               "Version": "1.0"
+            }
+         ]
+      },
+      "MessageProtocol": {
+         "Name": "File",
+         "Version": "1.0",
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "File"
+            }
+         ],
+         "SecurityAttributes": []
+      },
+      "GlobalChannelAttributes": ""
+   },
+   "Attribute": [
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "host"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "isparameterized": "true",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Server Host"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "path"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": [],
+         "isparameterized": "true",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Directory"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "username"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "isparameterized": "true",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "User Name"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "strictHostKeyChecking"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Strict Host Key Checking"
+            }
+         ],
+         "FixedValue": [
+            {
+               "value": "YES",
+               "GuiLabels": {
+                  "@guid": "fc5eca92f02011d8ba97eaf70a126329",
+                  "@resourceId": "com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Yes"
+                  }
+               }
+            },
+            {
+               "value": "NO",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "No"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "maximumReconnectAttempts"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "3",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Maximum Reconnect Attempts"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "reconnectDelay"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "1000",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Reconnect Delay (in ms)"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "connectTimeout"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "10000",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Connection Timeout (in ms)"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "stepwise"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": "1",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Traverse Directories Stepwise"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "chmod"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "CHMOD"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "autoCreate"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": "1",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Automatically Create Directories"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "bufferSize"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "128",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Buffer Size (in KB)"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "fileName"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "File Name"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "flatten"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Flatten Filenames"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "initialDelay"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "1000",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Initial Delay(milliseconds)"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "delay"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "500",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Delay(milliseconds)"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "useFixedDelay"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": "1",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Use Fixed Delay"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "runLoggingLevel"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": "TRACE",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Run Logging Level"
+            }
+         ],
+         "FixedValue": [
+            {
+               "value": "TRACE",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Trace"
+                  }
+               }
+            },
+            {
+               "value": "INFO",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Info"
+                  }
+               }
+            },
+            {
+               "value": "IGNORE",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Ignore"
+                  }
+               }
+            },
+            {
+               "value": "WARNING",
+               "GuiLabels": {
+                  "@guid": "fc5eca92f02011d8ba97eaf70a126329",
+                  "@resourceId": "com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Warning"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "readLock"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": "none",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Read Lock Strategy"
+            }
+         ],
+         "FixedValue": [
+            {
+               "value": "none",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "None"
+                  }
+               }
+            },
+            {
+               "value": "rename",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Rename"
+                  }
+               }
+            },
+            {
+               "value": "change",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Content Change"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "recursive"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Recursive"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "delete"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Delete After Processing"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "sftpSecEnabled"
+         },
+         "Usage": "mandatory",
+         "DataType": "xsd:boolean",
+         "Default": "1",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Prevent backward path traversal"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "noop"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "No Operations After Processing"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "disconnect"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:boolean",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Disconnect After Processing"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "idempotentRepository"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Noop"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "maxMessagesPerPoll"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "0",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Maximum Messages Per Poll"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "retryAlertThreshold"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:integer",
+         "Default": "0",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Alert Threshold for Retry"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "fileExist"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": "Override",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "File Exist"
+            }
+         ],
+         "FixedValue": [
+            {
+               "value": "Override",
+               "GuiLabels": {
+                  "@guid": "fc5eca92f02011d8ba97eaf70a126329",
+                  "@resourceId": "com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Override"
+                  }
+               }
+            },
+            {
+               "value": "Append",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Append"
+                  }
+               }
+            },
+            {
+               "value": "Fail",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Fail"
+                  }
+               }
+            },
+            {
+               "value": "Ignore",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Ignore"
+                  }
+               }
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "idempotentRepository"
+         },
+         "Usage": "optional",
+         "DataType": "xsd:string",
+         "Default": "inMemory",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Idempotent Repository"
+            }
+         ],
+         "FixedValue": [
+            {
+               "value": "inMemory",
+               "GuiLabels": {
+                  "@guid": "fc5eca92f02011d8ba97eaf70a126329",
+                  "@resourceId": "com.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_TEMPFILE",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "In Memory"
+                  }
+               }
+            },
+            {
+               "value": "database",
+               "GuiLabels": {
+                  "@guid": "fc5eca93f02011d88d1eeaf70a126329",
+                  "@resourceId": "ccom.sap.ide.it.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_DIRECT",
+                  "Label": {
+                     "@language": "EN",
+                     "#text": "Database"
+                  }
+               }
+            }
+         ]
+      }
+   ],
+   "TabDefinition": [
+      {
+         "@id": "source",
+         "GuiLabels": {
+            "@guid": "3b8add6212b111dc89ac000f206a1795",
+            "@resourceId": "com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_SRC",
+            "Label": {
+               "@language": "EN",
+               "#text": "Source"
+            }
+         }
+      },
+      {
+         "@id": "target",
+         "GuiLabels": {
+            "@guid": "3b8add6212b111dc89ac000f206a1795",
+            "@resourceId": "com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_TGT",
+            "Label": {
+               "@language": "EN",
+               "#text": "Target"
+            }
+         }
+      },
+      {
+         "@id": "processing",
+         "GuiLabels": {
+            "@guid": "3b8add6212b111dc89ac000f206a1795",
+            "@resourceId": "com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_PRO",
+            "Label": {
+               "@language": "EN",
+               "#text": "Processing"
+            }
+         }
+      },
+      {
+         "@id": "advanced",
+         "GuiLabels": {
+            "@guid": "3b8add6212b111dc89ac000f206a1795",
+            "@resourceId": "com.sap.ide.it.generic.componentmetadata.rb_SFTPAdapterMetadata.TAB_ADV",
+            "Label": {
+               "@language": "EN",
+               "#text": "Advanced"
+            }
+         }
+      }
+   ]
+}

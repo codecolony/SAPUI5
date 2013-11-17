@@ -1,0 +1,470 @@
+{
+   "@Name": "IDOC",
+   "@version": "1.0",
+   "Inbound": {
+      "TransportProtocol": [
+         {
+            "Name": "tRFC",
+            "Version": "1.0",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "tRFC"
+               }
+            ],
+            "ChannelAttributes": [
+               {
+                  "@id": "general",
+                  "AttributeGroup": {
+                     "Name": "Connection Details",
+                     "GuiLabels": {
+                        "@guid": "3b8add6212b111dc89ac000f206a1795",
+                        "@resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                        "Label": [
+                           {
+                              "@language": "EN",
+                              "#text": "Connection Details"
+                           },
+                           {
+                              "@language": "DE",
+                              "#text": "Connection Details"
+                           }
+                        ]
+                     },
+                     "AttributeReference": [
+                        "gatewayhost",
+                        [
+                           "gatewayservice"
+                        ],
+                        [
+                           "programId"
+                        ],
+                        [
+                           "targethost"
+                        ],
+                        [
+                           "client"
+                        ],
+                        [
+                           "systemnumber"
+                        ],
+                        [
+                           "username"
+                        ],
+                        [
+                           "password"
+                        ]
+                     ]
+                  }
+               }
+            ],
+            "SecurityAttributes": [],
+            "ValidMessageProtocols": [
+               {
+                  "Name": "IDoc",
+                  "Version": "1.2"
+               }
+            ]
+         },
+         {
+            "Name": "HTTP",
+            "Version": "1.0",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "HTTP"
+               }
+            ],
+            "ChannelAttributes": [
+               {
+                  "@id": "general",
+                  "AttributeGroup": {
+                     "Name": "Connection Details",
+                     "GuiLabels": {
+                        "@guid": "3b8add6212b111dc89ac000f206a1795",
+                        "@resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                        "Label": [
+                           {
+                              "@language": "EN",
+                              "#text": "Connection Details"
+                           },
+                           {
+                              "@language": "DE",
+                              "#text": "Connection Details"
+                           }
+                        ]
+                     },
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "address",
+                           "Restriction": "(/\\w+.*_*)+",
+                           "ErrorMessage": "Enter a valid address. E.g. /file/test",
+                           "description": "Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”"
+                        },
+                        {
+                           "ReferenceName": "wsdlURL",
+                           "Restriction": "^$|(/?)(wsdl/){1}([A-Za-z0-9_.]+)(.(?i)wsdl)$",
+                           "ErrorMessage": "Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl",
+                           "description": "URL to the WSDL defining the WS provider endpoint.\nURL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                        }
+                     ]
+                  }
+               }
+            ],
+            "SecurityAttributes": [],
+            "ValidMessageProtocols": [
+               {
+                  "Name": "IDoc SOAP",
+                  "Version": "1.2"
+               }
+            ]
+         }
+      ],
+      "MessageProtocol": [
+         {
+            "Name": "IDoc",
+            "Version": "1.2",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "IDoc"
+               }
+            ],
+            "SecurityAttributes": []
+         },
+         {
+            "Name": "IDoc SOAP",
+            "Version": "1.2",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "IDoc SOAP"
+               }
+            ],
+            "SecurityAttributes": []
+         }
+      ],
+      "GlobalChannelAttributes": ""
+   },
+   "Outbound": {
+      "TransportProtocol": [
+         {
+            "Name": "tRFC",
+            "Version": "1.0",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "tRFC"
+               }
+            ],
+            "ChannelAttributes": [
+               {
+                  "@id": "general",
+                  "AttributeGroup": {
+                     "Name": "Connection Details",
+                     "GuiLabels": {
+                        "@guid": "3b8add6212b111dc89ac000f206a1795",
+                        "@resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                        "Label": [
+                           {
+                              "@language": "EN",
+                              "#text": "Connection Details"
+                           },
+                           {
+                              "@language": "DE",
+                              "#text": "Connection Details"
+                           }
+                        ]
+                     },
+                     "AttributeReference": [
+                        {
+                           "ReferenceName": "targethost",
+                           "description": []
+                        },
+                        [
+                           "client"
+                        ],
+                        [
+                           "systemnumber"
+                        ],
+                        [
+                           "username"
+                        ],
+                        [
+                           "password"
+                        ]
+                     ]
+                  }
+               }
+            ],
+            "SecurityAttributes": [],
+            "ValidMessageProtocols": [
+               {
+                  "Name": "IDoc",
+                  "Version": "1.2"
+               }
+            ]
+         },
+         {
+            "Name": "HTTP",
+            "Version": "1.0",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "HTTP"
+               }
+            ],
+            "ChannelAttributes": [
+               {
+                  "@id": "general",
+                  "AttributeGroup": {
+                     "Name": "Connection Details",
+                     "GuiLabels": {
+                        "@guid": "3b8add6212b111dc89ac000f206a1795",
+                        "@resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                        "Label": [
+                           {
+                              "@language": "EN",
+                              "#text": "Connection Details"
+                           },
+                           {
+                              "@language": "DE",
+                              "#text": "Connection Details"
+                           }
+                        ]
+                     },
+                     "AttributeReference": {
+                        "ReferenceName": "address",
+                        "Restriction": "^(http(s)*://){1}(.)++",
+                        "ErrorMessage": "Enter a valid address. E.g. https://servername:port/sap/bc/srt/idoc?sap-client=number",
+                        "description": "Endpoint address on which the ESB Bus posts the outgoing message, for example “https://servername:port/sap/bc/srt/idoc?sap-client=number”"
+                     }
+                  }
+               }
+            ],
+            "SecurityAttributes": [],
+            "ValidMessageProtocols": [
+               {
+                  "Name": "IDoc SOAP",
+                  "Version": "1.2"
+               }
+            ]
+         }
+      ],
+      "MessageProtocol": [
+         {
+            "Name": "IDoc",
+            "Version": "1.2",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "IDoc"
+               }
+            ],
+            "SecurityAttributes": []
+         },
+         {
+            "Name": "IDoc SOAP",
+            "Version": "1.2",
+            "GuiLabels": [
+               {
+                  "@language": "EN",
+                  "#text": "IDoc SOAP"
+               }
+            ],
+            "SecurityAttributes": []
+         }
+      ],
+      "GlobalChannelAttributes": ""
+   },
+   "Attribute": [
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "address"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "isparameterized": "true",
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Address"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "gatewayhost"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Gateway Host"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "gatewayservice"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Gateway Service"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "programId"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Program Id"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "targethost"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Target Host"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "client"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Client"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "systemnumber"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "System Number"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "username"
+         },
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Default": [],
+         "Length": [],
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Username"
+            }
+         ]
+      },
+      {
+         "@isPassword": "true",
+         "Name": "password",
+         "Usage": "required",
+         "DataType": "xsd:string",
+         "Length": "0",
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "Password"
+            }
+         ]
+      },
+      {
+         "Name": {
+            "@namespace": "",
+            "#text": "wsdlURL"
+         },
+         "DataType": "xsd:string",
+         "Default": [],
+         "isparameterized": "true",
+         "Length": [],
+         "HelpService": {
+            "HelpServiceName": "wsdlURL",
+            "HelpServiceQueryAttributes": [
+               {
+                  "Name": "Type",
+                  "Value": "WSDL"
+               },
+               {
+                  "Name": "DataPart.XIHeader.SystemType",
+                  "Value": "ALL"
+               }
+            ]
+         },
+         "GuiLabels": [
+            {
+               "@language": "EN",
+               "#text": "URL to WSDL"
+            }
+         ]
+      }
+   ],
+   "TabDefinition": {
+      "@id": "general",
+      "GuiLabels": {
+         "@guid": "3b8add6212b111dc89ac000f206a1795",
+         "@resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+         "Label": [
+            {
+               "@language": "EN",
+               "#text": "General"
+            },
+            {
+               "@language": "DE",
+               "#text": "General"
+            }
+         ]
+      }
+   }
+}

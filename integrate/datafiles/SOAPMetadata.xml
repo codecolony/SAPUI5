@@ -1,0 +1,867 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AdapterTypeMetaData Name="SOAP" version="1.0">
+	<Inbound>
+		<TransportProtocol>
+			<Name>HTTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">HTTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>Plain SOAP</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+				<ProtocolIdentifier>
+					<Name>SOAP 1.x</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+				<ProtocolIdentifier>
+					<Name>WS-RM</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<MessageProtocol>
+			<Name>Plain SOAP</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SAP Plain SOAP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+						<AttributeGroup>
+							<Name>Connection Details</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">Connection Details</Label>
+								<Label language="DE">Connection Details</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>address</ReferenceName>
+								<Restriction>(/\w+.*_*)+</Restriction>
+								<ErrorMessage>Enter a valid address. E.g. /file/test</ErrorMessage>
+								<description>Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>wsdlURL</ReferenceName>
+								<Restriction>(/?)(wsdl/){1}(\w+)(.(?i)wsdl)$</Restriction>
+								<ErrorMessage>Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl</ErrorMessage>
+								<description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>cxfOnewayRobust</ReferenceName>
+								<description>Used for reliable one-way message exchanges.&#10;The consumer sends a message to a provider, which returns a status.&#10;When the processing fails a fault is returned.</description>
+							</AttributeReference>
+						</AttributeGroup>
+					</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<MessageProtocol>
+			<Name>SOAP 1.x</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SOAP 1.x</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+						<AttributeGroup>
+							<Name>Connection Details</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">Connection Details</Label>
+								<Label language="DE">Connection Details</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>address</ReferenceName>
+								<Restriction>(/\w+.*_*)+</Restriction>
+								<ErrorMessage>Enter a valid address. E.g. /file/test</ErrorMessage>
+								<description>Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>soapWsdlURL</ReferenceName>
+								<ErrorMessage>Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl</ErrorMessage>
+								<description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>soapServiceName</ReferenceName>
+								<description>Name of the selected service contained in the referenced WSDL</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>soapWsdlPortName</ReferenceName>
+								<description>Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>CompressMessage</ReferenceName>
+								<description>Enable this WS endpoint to:&#10;Accept the compressed request messages&#10;Compress the response messages if the WS Consumer can handle them</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>soapOptions</ReferenceName>
+								<description>Standard: Message is executed with standard processing mechanism.&#10;Robust: Provider invokes service synchronously and the processing errors are returned to the consumer.&#10;Automatic Redelivery: If message delivery fails, the message is persisted and the ESB Bus automatically tries to deliver the message again.</description>
+							</AttributeReference>
+						</AttributeGroup>
+						<AttributeGroup>
+							<Name>WS-Security</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">WS-Security</Label>
+								<Label language="DE">WS-Security</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>verifyRequestMessage</ReferenceName>
+								<description>Verify the data integrity of the incoming request message and check the sender's identity.</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>signResponseMessage</ReferenceName>
+								<description>Sign the outgoing response message to ensure data integrity</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>includeCertificateInResponse</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signResponseMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Include X.509 certificate in the response message</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>signAlias</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signResponseMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Alias of the private key that is used to sign the message</description>
+							</AttributeReference>
+						</AttributeGroup>
+					</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes ></SecurityAttributes>
+		</MessageProtocol>
+		
+				<MessageProtocol>
+			<Name>WS-RM</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SAP WS-RM</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+						<AttributeGroup>
+							<Name>Connection Details</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">Connection Details</Label>
+								<Label language="DE">Connection Details</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>address</ReferenceName>
+								<Restriction>(/\w+.*_*)+</Restriction>
+								<ErrorMessage>Enter a valid address. E.g. /file/test</ErrorMessage>
+								<description>Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”</description></AttributeReference>
+							<AttributeReference>
+								<ReferenceName>wsdlURL</ReferenceName>
+								<Restriction>(/?)(wsdl/){1}(\w+)(.(?i)wsdl)$</Restriction>
+								<ErrorMessage>Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl</ErrorMessage>
+								<description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>serviceName</ReferenceName>
+								<description>Name of the selected service contained in the referenced WSDL</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>wsdlPortName</ReferenceName>
+								<description>Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>CompressMessage</ReferenceName>
+								<description>Enable this WS endpoint to:&#10;Accept the compressed request messages&#10;Compress the response messages if the WS Consumer can handle them</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>EncryptRMPersistence</ReferenceName>
+								<description>Encrypt the message that is persisted in a reliable messaging protocol</description>
+							</AttributeReference>
+						</AttributeGroup>
+						<AttributeGroup>
+							<Name>acksetting</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">Acknowledgement Settings</Label>
+								<Label language="DE">Acknowledgement Settings</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>IntraMessageThreshold</ReferenceName>
+								<Restriction>[0-9]*</Restriction>
+								<description>Default value is “0”; this restricts the deferred sending of acknowledgments in case the stream of incoming messages is steady,&#10;i.e. the number of messages for one destination per minute stays above the specified threshold (only effective if the AcknowledgmentInterval is greater than 0).&#10;If the value is "0", an acknowledgment is sent for each message immediately.&#10;The "0" value must be used, if the sender system is an ABAP system.</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>AcknowledgementInterval</ReferenceName>
+								<Restriction>[0-9]*</Restriction>
+								<description>Specify the duration (in ms) after which the sender endpoint transmits an acknowledgment</description>
+							</AttributeReference>
+						</AttributeGroup>
+						<AttributeGroup>
+							<Name>DeliveryAssurance</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">Delivery Assurance</Label>
+								<Label language="DE">Delivery Assurance</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>retryAlertThreshold</ReferenceName>
+								<Restriction>[0-9]*</Restriction>
+								<ErrorMessage>Enter a valid positive number, 0 means no alert will be raised</ErrorMessage>
+								<description>If the number of attempts to receive a message from the CXF bus exceeds the retry threshold, an alert is raised.&#10;Default value '0' indicates that alert is not raised on error.</description>
+							</AttributeReference>
+						</AttributeGroup>
+						<AttributeGroup>
+							<Name>WS-Security</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">WS-Security</Label>
+								<Label language="DE">WS-Security</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>verifyRequestMessage</ReferenceName>
+								<description>Verify the data integrity of the incoming request message and check the sender's identity</description>
+							</AttributeReference>
+						</AttributeGroup>
+						
+					</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+		</MessageProtocol>
+		
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Inbound>
+	<Outbound>
+		<TransportProtocol>
+			<Name>HTTP</Name>
+			<Version>1.0</Version>
+			<GuiLabels>
+				<Label language="EN">HTTP</Label>
+			</GuiLabels>
+			<ChannelAttributes>	
+			</ChannelAttributes>
+			<SecurityAttributes />
+			<ValidMessageProtocols>
+				<ProtocolIdentifier>
+					<Name>Plain SOAP</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>				
+				<ProtocolIdentifier>
+					<Name>SOAP 1.x</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+				<ProtocolIdentifier>
+					<Name>WS-RM</Name>
+					<Version>1.2</Version>
+				</ProtocolIdentifier>
+			</ValidMessageProtocols>
+		</TransportProtocol>
+		<MessageProtocol>
+			<Name>Plain SOAP</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SAP Plain SOAP</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>address</ReferenceName>
+							<Restriction>^(http(s)*://){1}(.)+</Restriction>
+							<ErrorMessage>Enter a valid address. E.g. http(s)://example</ErrorMessage>
+							<description>Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”</description>
+						</AttributeReference>
+					</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+		</MessageProtocol>
+		<MessageProtocol>
+			<Name>SOAP 1.x</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SOAP 1.x</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+				<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>address</ReferenceName>
+							<Restriction>^(http(s)*://){1}(.)+</Restriction>
+							<ErrorMessage>Enter a valid address. E.g. http(s)://example</ErrorMessage>
+							<description>Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>soapWsdlURL</ReferenceName>
+							<ErrorMessage>Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl</ErrorMessage>
+							<description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>soapServiceName</ReferenceName>
+							<description>Name of the selected service contained in the referenced WSDL</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>soapWsdlPortName</ReferenceName>
+							<description>Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>operationName</ReferenceName>
+							<description>Name of the operation for selected service contained in the referenced WSDL</description>
+						</AttributeReference>
+						 <AttributeReference>
+							<ReferenceName>CompressMessage</ReferenceName>
+							<description>Enable this WS endpoint to:&#10;Send compressed request messages to WS Provider&#10;Indicate to WS Provider that it can handle compressed response messages</description>
+						 </AttributeReference>
+					</AttributeGroup>
+						<AttributeGroup>
+							<Name>WS-Security</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">WS-Security</Label>
+								<Label language="DE">WS-Security</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>signRequestMessage</ReferenceName>
+								<description>Sign the outgoing request message to ensure data integrity</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>signAlias</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signRequestMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Alias of the private key that was used to sign the message</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>includeCertificateInRequest</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signRequestMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Include X.509 certificate in the request message</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>verifyResponseMessage</ReferenceName>
+								<description>Verify the integrity of the incoming response message and check the sender's identity</description>
+							</AttributeReference>
+						</AttributeGroup>
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+		</MessageProtocol>
+				<MessageProtocol>
+			<Name>WS-RM</Name>
+			<Version>1.2</Version>
+			<GuiLabels>
+				<Label language="EN">SAP WS-RM</Label>
+			</GuiLabels>
+			<ChannelAttributes>
+			<Tab id="general">
+					<AttributeGroup>
+						<Name>Connection Details</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Connection Details</Label>
+							<Label language="DE">Connection Details</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>address</ReferenceName>
+							<Restriction>^(http(s)*://){1}(.)+</Restriction>
+							<ErrorMessage>Enter a valid address. E.g. http(s)://example</ErrorMessage>
+							<description>Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>wsdlURL</ReferenceName>
+							<!-- <Restriction>^https://(.)+</Restriction>
+							<ErrorMessage>Enter a valid wsdl url . E.g. https://example</ErrorMessage>
+							 -->
+							 <description>URL to the WSDL defining the WS provider endpoint.&#10;URL format: wsdl/&lt;InterfaceName&gt;.wsdl, where the WSDL is available in src.main.resources.wsdl</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>serviceName</ReferenceName>
+							<!-- <Restriction>\w+{1}:\w+</Restriction>
+							<ErrorMessage>Enter a valid wsdl port name. E.g. bsn:ServiceName</ErrorMessage>
+							 -->
+							 <description>Name of the selected service contained in the referenced WSDL</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>wsdlPortName</ReferenceName>
+							<!-- <Restriction>\w+{1}:\w+</Restriction>
+							<ErrorMessage>Enter a valid wsdl port name. E.g. bsn:ServicePort</ErrorMessage>
+							 -->
+							 <description>Name of the selected port of selected service contained in the referenced WSDL</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>operationName</ReferenceName>
+							<description>Name of the operation of selected service (that you provide in the Service Name field) contained in the referenced WSDL</description>
+						</AttributeReference>
+						 <AttributeReference>
+							<ReferenceName>CompressMessage</ReferenceName>
+							<description>Enable this WS endpoint to:&#10;Send compressed request messages to WS Provider&#10;Indicate to WS Provider that it can handle compressed response messages</description>
+						 </AttributeReference>
+						<AttributeReference>
+							<ReferenceName>EncryptRMPersistence</ReferenceName>
+							<description>Enable encryption for persistence of RMStore</description>
+						</AttributeReference>
+					</AttributeGroup>
+					<AttributeGroup>
+						<Name>Sequence Termination Policy</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Sequence Termination Policy</Label>
+							<Label language="DE">Sequence Termination Policy</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>Maxlength</ReferenceName>
+							<Restriction>1</Restriction>
+							<ErrorMessage>Maximum Length allowed is '1'</ErrorMessage>
+							<description>Enforce the use of a separate sequence per application message by setting the maximum sequence length to 1</description>
+						</AttributeReference>
+					</AttributeGroup>
+
+					<AttributeGroup>
+						<Name>DeliveryAssurance</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">Delivery Assurance</Label>
+							<Label language="DE">Delivery Assurance</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>retryAlertThreshold</ReferenceName>
+							<Restriction>[0-9]*</Restriction>
+							<ErrorMessage>Enter a valid positive number , 0 means no alert will be raised</ErrorMessage>
+							<description>If the number of attempts to send a message from the CXF bus exceeds the retry threshold, an alert is raised.&#10;Default value '0' indicates that alert is not raised on error.</description>
+						</AttributeReference>
+					</AttributeGroup>
+
+					<AttributeGroup>
+						<Name>RetransmissionSettings</Name>
+						<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+							resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+							<Label language="EN">RetransmissionSettings</Label>
+							<Label language="DE">RetransmissionSettings</Label>
+						</GuiLabels>
+						<AttributeReference>
+							<ReferenceName>ExponentialBackOffEnable</ReferenceName>
+						<description>Specify that the retransmission interval is adjusted using the exponential back-off algorithm</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>BaseRetransmissionInterval</ReferenceName>
+							<Restriction>[0-9]*</Restriction>
+							<ErrorMessage>Enter a valid positive number , 0 means no alert will be raised</ErrorMessage>
+							<description>Specify how long the sender endpoint waits after transmitting a message and before retransmitting the message.</description>
+						</AttributeReference>
+						<AttributeReference>
+							<ReferenceName>MaxRetry</ReferenceName>
+							<Restriction>[0-9]*</Restriction>
+						</AttributeReference>
+					</AttributeGroup>
+						<AttributeGroup>
+							<Name>WS-Security</Name>
+							<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+								resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+								<Label language="EN">WS-Security</Label>
+								<Label language="DE">WS-Security</Label>
+							</GuiLabels>
+							<AttributeReference>
+								<ReferenceName>signRequestMessage</ReferenceName>
+								<description>Sign the outgoing request message to ensure data integrity</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>includeCertificateInRequest</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signRequestMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Include X.509 certificate in the request message</description>
+							</AttributeReference>
+							<AttributeReference>
+								<ReferenceName>signAlias</ReferenceName>
+		                        <EditCondition>
+		                           <AttributeName>signRequestMessage</AttributeName>
+		                           <AttributeValue>1</AttributeValue>
+		                        </EditCondition>
+								<description>Alias of the private key that was used to sign the message</description>
+							</AttributeReference>
+						</AttributeGroup>
+					
+				</Tab>
+			</ChannelAttributes>
+			<SecurityAttributes />
+		</MessageProtocol>
+		
+		<GlobalChannelAttributes>
+		</GlobalChannelAttributes>
+	</Outbound>
+	<Attribute>
+		<Name namespace="">Maxlength</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:integer</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Maximum Length</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">address</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default><!-- /BSN/paymentOrder --></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Address</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">CompressMessage</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default><!-- 1 --></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Compress Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">EncryptRMPersistence</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:boolean</DataType>
+		<Default>1</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Encrypt message during persistence</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">wsdlURL</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Default><!-- /wsdl/bsn.wsdl --></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<HelpService>
+			<HelpServiceName>wsdlURL</HelpServiceName>
+			<HelpServiceQueryAttributes>
+				<HelpServiceQueryAttribute>
+               		<Name>Type</Name>
+               		<Value>WSDL</Value>
+           	 	</HelpServiceQueryAttribute>
+				<HelpServiceQueryAttribute>
+               		<Name>DataPart.XIHeader.SystemType</Name>
+               		<Value>ALL</Value>
+           	 	</HelpServiceQueryAttribute>
+			</HelpServiceQueryAttributes>
+		</HelpService>
+		<GuiLabels>
+			<Label language="EN">URL to WSDL</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">serviceName</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Length />
+		<Default><!-- bsn:BSNService --></Default>
+		
+		<GuiLabels>
+			<Label language="EN">Service Name</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">wsdlPortName</Name>
+		<Usage>required</Usage>
+		<DataType>xsd:string</DataType>
+		<Length />
+		<Default><!-- bsn:BSNPort --></Default>
+		
+		<GuiLabels>
+			<Label language="EN">Port Name</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">cxfOnewayRobust</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<Default>1</Default>
+		<GuiLabels>
+			<Label language="EN">Robust One-way Communication</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">ReliableMessageDelivery</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<Default>1</Default>
+		<GuiLabels>
+			<Label language="EN">Reliable Messaging</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">assurance</Name>
+		<Usage />
+		<DataType>xsd:string</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Assurance Patterns</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>Atleast Once</value>
+			<GuiLabels guid="fc57c5a6f02011d8ac0feaf70a126329"
+				resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE">
+				<Label language="EN">Atleast Once</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">MaxLength</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Max Length</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">MaxRetry</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Default>5</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Maximum Number of Retries</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">BaseRetransmissionInterval</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Base Retransmission Interval</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">ExponentialBackOffInterval</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Default>2000</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Exponential Backoff Interval</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">ExponentialBackOffEnable</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Exponential Backoff</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">AcknowledgementInterval</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Default>0</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Acknowledgement Interval</Label>
+		</GuiLabels>
+	</Attribute>
+	
+	<Attribute>
+		<Name namespace="">IntraMessageThreshold</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Default>0</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Intra Message Threshold</Label>
+		</GuiLabels>
+	</Attribute>
+		<Attribute>
+		<Name namespace="">retryAlertThreshold</Name>
+		<Usage />
+		<DataType>xsd:integer</DataType>
+		<Default>0</Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Alert Threshold for Retry</Label>
+		</GuiLabels>
+	</Attribute>
+		<Attribute>
+		<Name namespace="">soapWsdlURL</Name>
+		<DataType>xsd:string</DataType>
+		<Default><!-- /wsdl/bsn.wsdl --></Default>
+		<isparameterized>true</isparameterized>
+		<Length />
+		<HelpService>
+			<HelpServiceName>soapWsdlURL</HelpServiceName>
+			<HelpServiceQueryAttributes>
+				<HelpServiceQueryAttribute>
+               		<Name>Type</Name>
+               		<Value>WSDL</Value>
+           	 	</HelpServiceQueryAttribute>
+				<HelpServiceQueryAttribute>
+               		<Name>DataPart.XIHeader.SystemType</Name>
+               		<Value>ALL</Value>
+           	 	</HelpServiceQueryAttribute>
+			</HelpServiceQueryAttributes>
+		</HelpService>
+		<GuiLabels>
+			<Label language="EN">URL to WSDL</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">soapServiceName</Name>
+		<DataType>xsd:string</DataType>
+		<Length />
+		<Default><!-- bsn:BSNService --></Default>
+		
+		<GuiLabels>
+			<Label language="EN">Service Name</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">soapWsdlPortName</Name>
+		<DataType>xsd:string</DataType>
+		<Length />
+		<Default><!-- bsn:BSNPort --></Default>
+		
+		<GuiLabels>
+			<Label language="EN">Port Name</Label>
+		</GuiLabels>
+	</Attribute>
+		<Attribute>
+		<Name namespace="">soapOptions</Name>
+		<Usage />
+		<DataType>xsd:string</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Processing Settings</Label>
+		</GuiLabels>
+		<FixedValue>
+			<value>None</value>
+			<GuiLabels guid="fc57c5a6f02011d8ac0feaf70a126329"
+				resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE">
+				<Label language="EN">Standard</Label>
+			</GuiLabels>
+		</FixedValue>
+		<FixedValue>
+			<value>cxfRobust</value>
+			<GuiLabels guid="fc57c5a6f02011d8ac0feaf70a126329"
+				resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE">
+				<Label language="EN">Robust</Label>
+			</GuiLabels>
+		</FixedValue>
+	</Attribute>
+	
+	<Attribute>
+		<Name namespace="">verifyRequestMessage</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Verify Request Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">signResponseMessage</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Sign Response Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">includeCertificateInResponse</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Include Certificate in Response Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">signRequestMessage</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Default></Default>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Sign Request Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">verifyResponseMessage</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Verify Response Message</Label>
+		</GuiLabels>
+	</Attribute>
+	<Attribute>
+		<Name namespace="">includeCertificateInRequest</Name>
+		<Usage />
+		<DataType>xsd:boolean</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Include Certificate in Request Message</Label>
+		</GuiLabels>
+	</Attribute>
+
+	<Attribute>
+		<Name namespace="">signAlias</Name>
+		<Usage />
+		<DataType>xsd:string</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Private Key Alias</Label>
+		</GuiLabels>
+	</Attribute>
+
+	<Attribute>
+		<Name namespace="">operationName</Name>
+		<Usage />
+		<DataType>xsd:string</DataType>
+		<Length />
+		<GuiLabels>
+			<Label language="EN">Operation Name</Label>
+		</GuiLabels>
+	</Attribute>
+	
+	
+	<TabDefinition id="general">
+		<GuiLabels guid="3b8add6212b111dc89ac000f206a1795"
+			resourceId="com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC">
+			<Label language="EN">General</Label>
+			<Label language="DE">General</Label>
+		</GuiLabels>
+	</TabDefinition>
+</AdapterTypeMetaData>

@@ -1,0 +1,1162 @@
+{
+    "AdapterTypeMetaData": {
+        "-Name": "SOAP",
+        "-version": "1.0",
+        "Inbound": {
+            "TransportProtocol": {
+                "Name": "HTTP",
+                "Version": "1.0",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "HTTP"
+                    }
+                },
+                "ChannelAttributes": "",
+                "ValidMessageProtocols": {
+                    "ProtocolIdentifier": [
+                        {
+                            "Name": "Plain SOAP",
+                            "Version": "1.2"
+                        },
+                        {
+                            "Name": "SOAP 1.x",
+                            "Version": "1.2"
+                        },
+                        {
+                            "Name": "WS-RM",
+                            "Version": "1.2"
+                        }
+                    ]
+                }
+            },
+            "MessageProtocol": [
+                {
+                    "Name": "Plain SOAP",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SAP Plain SOAP"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": {
+                                "Name": "Connection Details",
+                                "GuiLabels": {
+                                    "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                    "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                    "Label": [
+                                        {
+                                            "-language": "EN",
+                                            "#text": "Connection Details"
+                                        },
+                                        {
+                                            "-language": "DE",
+                                            "#text": "Connection Details"
+                                        }
+                                    ]
+                                },
+                                "AttributeReference": [
+                                    {
+                                        "ReferenceName": "address",
+                                        "Restriction": "(/\\w+.*_*)+",
+                                        "ErrorMessage": "Enter a valid address. E.g. /file/test",
+                                        "description": "Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”"
+                                    },
+                                    {
+                                        "ReferenceName": "wsdlURL",
+                                        "Restriction": "(/?)(wsdl/){1}(\\w+)(.(?i)wsdl)$",
+                                        "ErrorMessage": "Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl",
+                                        "description": "URL to the WSDL defining the WS provider endpoint.URL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                                    },
+                                    {
+                                        "ReferenceName": "cxfOnewayRobust",
+                                        "description": "Used for reliable one-way message exchanges.The consumer sends a message to a provider, which returns a status.When the processing fails a fault is returned."
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                {
+                    "Name": "SOAP 1.x",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SOAP 1.x"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": [
+                                {
+                                    "Name": "Connection Details",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Connection Details"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Connection Details"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "address",
+                                            "Restriction": "(/\\w+.*_*)+",
+                                            "ErrorMessage": "Enter a valid address. E.g. /file/test",
+                                            "description": "Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”"
+                                        },
+                                        {
+                                            "ReferenceName": "soapWsdlURL",
+                                            "ErrorMessage": "Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl",
+                                            "description": "URL to the WSDL defining the WS provider endpoint.URL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                                        },
+                                        {
+                                            "ReferenceName": "soapServiceName",
+                                            "description": "Name of the selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "soapWsdlPortName",
+                                            "description": "Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "CompressMessage",
+                                            "description": "Enable this WS endpoint to:Accept the compressed request messagesCompress the response messages if the WS Consumer can handle them"
+                                        },
+                                        {
+                                            "ReferenceName": "soapOptions",
+                                            "description": "Standard: Message is executed with standard processing mechanism.Robust: Provider invokes service synchronously and the processing errors are returned to the consumer.Automatic Redelivery: If message delivery fails, the message is persisted and the ESB Bus automatically tries to deliver the message again."
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "WS-Security",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "WS-Security"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "WS-Security"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "verifyRequestMessage",
+                                            "description": "Verify the data integrity of the incoming request message and check the sender's identity."
+                                        },
+                                        {
+                                            "ReferenceName": "signResponseMessage",
+                                            "description": "Sign the outgoing response message to ensure data integrity"
+                                        },
+                                        {
+                                            "ReferenceName": "includeCertificateInResponse",
+                                            "EditCondition": {
+                                                "AttributeName": "signResponseMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Include X.509 certificate in the response message"
+                                        },
+                                        {
+                                            "ReferenceName": "signAlias",
+                                            "EditCondition": {
+                                                "AttributeName": "signResponseMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Alias of the private key that is used to sign the message"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "Name": "WS-RM",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SAP WS-RM"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": [
+                                {
+                                    "Name": "Connection Details",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Connection Details"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Connection Details"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "address",
+                                            "Restriction": "(/\\w+.*_*)+",
+                                            "ErrorMessage": "Enter a valid address. E.g. /file/test",
+                                            "description": "Relative endpoint address on which the ESB Bus listens to the incoming request, for example “/FSN/payment”"
+                                        },
+                                        {
+                                            "ReferenceName": "wsdlURL",
+                                            "Restriction": "(/?)(wsdl/){1}(\\w+)(.(?i)wsdl)$",
+                                            "ErrorMessage": "Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl",
+                                            "description": "URL to the WSDL defining the WS provider endpoint.URL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                                        },
+                                        {
+                                            "ReferenceName": "serviceName",
+                                            "description": "Name of the selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "wsdlPortName",
+                                            "description": "Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "CompressMessage",
+                                            "description": "Enable this WS endpoint to:Accept the compressed request messagesCompress the response messages if the WS Consumer can handle them"
+                                        },
+                                        {
+                                            "ReferenceName": "EncryptRMPersistence",
+                                            "description": "Encrypt the message that is persisted in a reliable messaging protocol"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "acksetting",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Acknowledgement Settings"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Acknowledgement Settings"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "IntraMessageThreshold",
+                                            "Restriction": "[0-9]*",
+                                            "description": "Default value is “0”; this restricts the deferred sending of acknowledgments in case the stream of incoming messages is steady,i.e. the number of messages for one destination per minute stays above the specified threshold (only effective if the AcknowledgmentInterval is greater than 0). If the value is \"0\", an acknowledgment is sent for each message immediately. The \"0\" value must be used, if the sender system is an ABAP system."
+                                        },
+                                        {
+                                            "ReferenceName": "AcknowledgementInterval",
+                                            "Restriction": "[0-9]*",
+                                            "description": "Specify the duration (in ms) after which the sender endpoint transmits an acknowledgment"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "DeliveryAssurance",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Delivery Assurance"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Delivery Assurance"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": {
+                                        "ReferenceName": "retryAlertThreshold",
+                                        "Restriction": "[0-9]*",
+                                        "ErrorMessage": "Enter a valid positive number, 0 means no alert will be raised",
+                                        "description": "If the number of attempts to receive a message from the CXF bus exceeds the retry threshold, an alert is raised. Default value '0' indicates that alert is not raised on error."
+                                    }
+                                },
+                                {
+                                    "Name": "WS-Security",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "WS-Security"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "WS-Security"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": {
+                                        "ReferenceName": "verifyRequestMessage",
+                                        "description": "Verify the data integrity of the incoming request message and check the sender's identity"
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "GlobalChannelAttributes": ""
+        },
+        "Outbound": {
+            "TransportProtocol": {
+                "Name": "HTTP",
+                "Version": "1.0",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "HTTP"
+                    }
+                },
+                "ChannelAttributes": "",
+                "ValidMessageProtocols": {
+                    "ProtocolIdentifier": [
+                        {
+                            "Name": "Plain SOAP",
+                            "Version": "1.2"
+                        },
+                        {
+                            "Name": "SOAP 1.x",
+                            "Version": "1.2"
+                        },
+                        {
+                            "Name": "WS-RM",
+                            "Version": "1.2"
+                        }
+                    ]
+                }
+            },
+            "MessageProtocol": [
+                {
+                    "Name": "Plain SOAP",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SAP Plain SOAP"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": {
+                                "Name": "Connection Details",
+                                "GuiLabels": {
+                                    "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                    "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                    "Label": [
+                                        {
+                                            "-language": "EN",
+                                            "#text": "Connection Details"
+                                        },
+                                        {
+                                            "-language": "DE",
+                                            "#text": "Connection Details"
+                                        }
+                                    ]
+                                },
+                                "AttributeReference": {
+                                    "ReferenceName": "address",
+                                    "Restriction": "^(http(s)*://){1}(.)+",
+                                    "ErrorMessage": "Enter a valid address. E.g. http(s)://example",
+                                    "description": "Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”"
+                                }
+                            }
+                        }
+                    }
+                },
+                {
+                    "Name": "SOAP 1.x",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SOAP 1.x"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": [
+                                {
+                                    "Name": "Connection Details",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Connection Details"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Connection Details"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "address",
+                                            "Restriction": "^(http(s)*://){1}(.)+",
+                                            "ErrorMessage": "Enter a valid address. E.g. http(s)://example",
+                                            "description": "Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”"
+                                        },
+                                        {
+                                            "ReferenceName": "soapWsdlURL",
+                                            "ErrorMessage": "Enter a valid URL. E.g. /wsdl/sample.wsdl; wsdl/sample.wsdl",
+                                            "description": "URL to the WSDL defining the WS provider endpoint. URL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                                        },
+                                        {
+                                            "ReferenceName": "soapServiceName",
+                                            "description": "Name of the selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "soapWsdlPortName",
+                                            "description": "Name of the selected port of a selected service (that you provide in the Service Name field) contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "operationName",
+                                            "description": "Name of the operation for selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "CompressMessage",
+                                            "description": "Enable this WS endpoint to: Send compressed request messages to WS Provider Indicate to WS Provider that it can handle compressed response messages"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "WS-Security",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "WS-Security"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "WS-Security"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "signRequestMessage",
+                                            "description": "Sign the outgoing request message to ensure data integrity"
+                                        },
+                                        {
+                                            "ReferenceName": "signAlias",
+                                            "EditCondition": {
+                                                "AttributeName": "signRequestMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Alias of the private key that was used to sign the message"
+                                        },
+                                        {
+                                            "ReferenceName": "includeCertificateInRequest",
+                                            "EditCondition": {
+                                                "AttributeName": "signRequestMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Include X.509 certificate in the request message"
+                                        },
+                                        {
+                                            "ReferenceName": "verifyResponseMessage",
+                                            "description": "Verify the integrity of the incoming response message and check the sender's identity"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                },
+                {
+                    "Name": "WS-RM",
+                    "Version": "1.2",
+                    "GuiLabels": {
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "SAP WS-RM"
+                        }
+                    },
+                    "ChannelAttributes": {
+                        "Tab": {
+                            "-id": "general",
+                            "AttributeGroup": [
+                                {
+                                    "Name": "Connection Details",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Connection Details"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Connection Details"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "address",
+                                            "Restriction": "^(http(s)*://){1}(.)+",
+                                            "ErrorMessage": "Enter a valid address. E.g. http(s)://example",
+                                            "description": "Endpoint address on which the ESB Bus posts the outgoing message, for example “https://host:port/payment”"
+                                        },
+                                        {
+                                            "ReferenceName": "wsdlURL",
+                                            "description": "URL to the WSDL defining the WS provider endpoint. URL format: wsdl/<InterfaceName>.wsdl, where the WSDL is available in src.main.resources.wsdl"
+                                        },
+                                        {
+                                            "ReferenceName": "serviceName",
+                                            "description": "Name of the selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "wsdlPortName",
+                                            "description": "Name of the selected port of selected service contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "operationName",
+                                            "description": "Name of the operation of selected service (that you provide in the Service Name field) contained in the referenced WSDL"
+                                        },
+                                        {
+                                            "ReferenceName": "CompressMessage",
+                                            "description": "Enable this WS endpoint to: Send compressed request messages to WS Provider Indicate to WS Provider that it can handle compressed response messages"
+                                        },
+                                        {
+                                            "ReferenceName": "EncryptRMPersistence",
+                                            "description": "Enable encryption for persistence of RMStore"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "Sequence Termination Policy",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Sequence Termination Policy"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Sequence Termination Policy"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": {
+                                        "ReferenceName": "Maxlength",
+                                        "Restriction": "1",
+                                        "ErrorMessage": "Maximum Length allowed is '1'",
+                                        "description": "Enforce the use of a separate sequence per application message by setting the maximum sequence length to 1"
+                                    }
+                                },
+                                {
+                                    "Name": "DeliveryAssurance",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "Delivery Assurance"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "Delivery Assurance"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": {
+                                        "ReferenceName": "retryAlertThreshold",
+                                        "Restriction": "[0-9]*",
+                                        "ErrorMessage": "Enter a valid positive number , 0 means no alert will be raised",
+                                        "description": "If the number of attempts to send a message from the CXF bus exceeds the retry threshold, an alert is raised. Default value '0' indicates that alert is not raised on error."
+                                    }
+                                },
+                                {
+                                    "Name": "RetransmissionSettings",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "RetransmissionSettings"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "RetransmissionSettings"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "ExponentialBackOffEnable",
+                                            "description": "Specify that the retransmission interval is adjusted using the exponential back-off algorithm"
+                                        },
+                                        {
+                                            "ReferenceName": "BaseRetransmissionInterval",
+                                            "Restriction": "[0-9]*",
+                                            "ErrorMessage": "Enter a valid positive number , 0 means no alert will be raised",
+                                            "description": "Specify how long the sender endpoint waits after transmitting a message and before retransmitting the message."
+                                        },
+                                        {
+                                            "ReferenceName": "MaxRetry",
+                                            "Restriction": "[0-9]*"
+                                        }
+                                    ]
+                                },
+                                {
+                                    "Name": "WS-Security",
+                                    "GuiLabels": {
+                                        "-guid": "3b8add6212b111dc89ac000f206a1795",
+                                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                                        "Label": [
+                                            {
+                                                "-language": "EN",
+                                                "#text": "WS-Security"
+                                            },
+                                            {
+                                                "-language": "DE",
+                                                "#text": "WS-Security"
+                                            }
+                                        ]
+                                    },
+                                    "AttributeReference": [
+                                        {
+                                            "ReferenceName": "signRequestMessage",
+                                            "description": "Sign the outgoing request message to ensure data integrity"
+                                        },
+                                        {
+                                            "ReferenceName": "includeCertificateInRequest",
+                                            "EditCondition": {
+                                                "AttributeName": "signRequestMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Include X.509 certificate in the request message"
+                                        },
+                                        {
+                                            "ReferenceName": "signAlias",
+                                            "EditCondition": {
+                                                "AttributeName": "signRequestMessage",
+                                                "AttributeValue": "1"
+                                            },
+                                            "description": "Alias of the private key that was used to sign the message"
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            ],
+            "GlobalChannelAttributes": ""
+        },
+        "Attribute": [
+            {
+                "Name": {
+                    "#text": "Maxlength"
+                },
+                "Usage": "required",
+                "DataType": "xsd:integer",
+                "Default": "1",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Maximum Length"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "address"
+                },
+                "Usage": "required",
+                "DataType": "xsd:string",
+                "Default": {},
+                "isparameterized": "true",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Address"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "CompressMessage"
+                },
+                "Usage": "required",
+                "DataType": "xsd:boolean",
+                "Default": {},
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Compress Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "EncryptRMPersistence"
+                },
+                "Usage": "required",
+                "DataType": "xsd:boolean",
+                "Default": "1",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Encrypt message during persistence"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "wsdlURL"
+                },
+                "Usage": "required",
+                "DataType": "xsd:string",
+                "Default": {},
+                "isparameterized": "true",
+                "HelpService": {
+                    "HelpServiceName": "wsdlURL",
+                    "HelpServiceQueryAttributes": {
+                        "HelpServiceQueryAttribute": [
+                            {
+                                "Name": "Type",
+                                "Value": "WSDL"
+                            },
+                            {
+                                "Name": "DataPart.XIHeader.SystemType",
+                                "Value": "ALL"
+                            }
+                        ]
+                    }
+                },
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "URL to WSDL"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "serviceName"
+                },
+                "Usage": "required",
+                "DataType": "xsd:string",
+                "Default": {},
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Service Name"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "wsdlPortName"
+                },
+                "Usage": "required",
+                "DataType": "xsd:string",
+                "Default": {},
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Port Name"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "cxfOnewayRobust"
+                },
+                "DataType": "xsd:boolean",
+                "Default": "1",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Robust One-way Communication"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "ReliableMessageDelivery"
+                },
+                "DataType": "xsd:boolean",
+                "Default": "1",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Reliable Messaging"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "assurance"
+                },
+                "DataType": "xsd:string",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Assurance Patterns"
+                    }
+                },
+                "FixedValue": {
+                    "value": "Atleast Once",
+                    "GuiLabels": {
+                        "-guid": "fc57c5a6f02011d8ac0feaf70a126329",
+                        "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE",
+                        "Label": {
+                            "-language": "EN",
+                            "#text": "Atleast Once"
+                        }
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "MaxLength"
+                },
+                "DataType": "xsd:integer",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Max Length"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "MaxRetry"
+                },
+                "DataType": "xsd:integer",
+                "Default": "5",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Maximum Number of Retries"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "BaseRetransmissionInterval"
+                },
+                "DataType": "xsd:integer",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Base Retransmission Interval"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "ExponentialBackOffInterval"
+                },
+                "DataType": "xsd:integer",
+                "Default": "2000",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Exponential Backoff Interval"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "ExponentialBackOffEnable"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Exponential Backoff"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "AcknowledgementInterval"
+                },
+                "DataType": "xsd:integer",
+                "Default": "0",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Acknowledgement Interval"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "IntraMessageThreshold"
+                },
+                "DataType": "xsd:integer",
+                "Default": "0",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Intra Message Threshold"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "retryAlertThreshold"
+                },
+                "DataType": "xsd:integer",
+                "Default": "0",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Alert Threshold for Retry"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "soapWsdlURL"
+                },
+                "DataType": "xsd:string",
+                "Default": {},
+                "isparameterized": "true",
+                "HelpService": {
+                    "HelpServiceName": "soapWsdlURL",
+                    "HelpServiceQueryAttributes": {
+                        "HelpServiceQueryAttribute": [
+                            {
+                                "Name": "Type",
+                                "Value": "WSDL"
+                            },
+                            {
+                                "Name": "DataPart.XIHeader.SystemType",
+                                "Value": "ALL"
+                            }
+                        ]
+                    }
+                },
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "URL to WSDL"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "soapServiceName"
+                },
+                "DataType": "xsd:string",
+                "Default": {},
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Service Name"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "soapWsdlPortName"
+                },
+                "DataType": "xsd:string",
+                "Default": {},
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Port Name"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "soapOptions"
+                },
+                "DataType": "xsd:string",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Processing Settings"
+                    }
+                },
+                "FixedValue": [
+                    {
+                        "value": "None",
+                        "GuiLabels": {
+                            "-guid": "fc57c5a6f02011d8ac0feaf70a126329",
+                            "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE",
+                            "Label": {
+                                "-language": "EN",
+                                "#text": "Standard"
+                            }
+                        }
+                    },
+                    {
+                        "value": "cxfRobust",
+                        "GuiLabels": {
+                            "-guid": "fc57c5a6f02011d8ac0feaf70a126329",
+                            "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.VAL_ACTIVE",
+                            "Label": {
+                                "-language": "EN",
+                                "#text": "Robust"
+                            }
+                        }
+                    }
+                ]
+            },
+            {
+                "Name": {
+                    "#text": "verifyRequestMessage"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Verify Request Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "signResponseMessage"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Sign Response Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "includeCertificateInResponse"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Include Certificate in Response Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "signRequestMessage"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Sign Request Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "verifyResponseMessage"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Verify Response Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "includeCertificateInRequest"
+                },
+                "DataType": "xsd:boolean",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Include Certificate in Request Message"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "signAlias"
+                },
+                "DataType": "xsd:string",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Private Key Alias"
+                    }
+                }
+            },
+            {
+                "Name": {
+                    "#text": "operationName"
+                },
+                "DataType": "xsd:string",
+                "GuiLabels": {
+                    "Label": {
+                        "-language": "EN",
+                        "#text": "Operation Name"
+                    }
+                }
+            }
+        ],
+        "TabDefinition": {
+            "-id": "general",
+            "GuiLabels": {
+                "-guid": "3b8add6212b111dc89ac000f206a1795",
+                "-resourceId": "com.sap.aii.ib.bom.cpa.generic.adaptermetadata.rb_FileAdapterMetadata.TAB_FCC",
+                "Label": [
+                    {
+                        "-language": "EN",
+                        "#text": "General"
+                    },
+                    {
+                        "-language": "DE",
+                        "#text": "General"
+                    }
+                ]
+            }
+        }
+    }
+}
