@@ -1,19 +1,35 @@
 
-		//globals
-var oConnectorMatrix;
-var oFlowstepMatrix;
-var myConnectorAdaptersSelector;
-var myFlowStepAdaptersSelector;
-var categorySelectorExists;
-var connectionMatricExists;
-var flowStepMatrixExists;
-var oMatrix;
-var oFormMatrix;
-var myCategorySelector;
-var oSimpleForm;
-var rMapStep;
-var oRMap;
-var resultXML;
+	//globals
+	var oConnectorMatrix;
+	var oFlowstepMatrix;
+	var myConnectorAdaptersSelector;
+	var myFlowStepAdaptersSelector;
+	var categorySelectorExists;
+	var connectionMatricExists;
+	var flowStepMatrixExists;
+	var oMatrix;
+	var fixedMatrix;
+	var oFormMatrix;
+	var myCategorySelector;
+	var oSimpleForm;
+	var rMapStep;
+	var oRMap;
+	var resultXML;
+	var globalRStep2;
+	var step2list = [];
+
+function getFlowStepList(){
+	//simulation at the moment
+	return ["Mapping", "Signer", "Verifier", "Encoder", "Decoder"];
+	
+	//to do - real logic to retrieve the list
+}
+
+function addFlowStep(stepName){
+	var dItem = new sap.ui.core.ListItem(stepName);
+	dItem.setText(stepName);
+	myFlowStepAdaptersSelector.addItem(dItem);
+}
 
 function getCategorySelector() {
 	//add category drop down
@@ -54,15 +70,20 @@ function getConnectionMatrix(){
 	
 	if(flowStepMatrixExists == true){
 		flowStepMatrixExists = false;
+		
+		fixedMatrix.removeAllRows();
+		//fixedMatrix.removeRow(sap.ui.getCore().byId("L-FlowAdapters"),sap.ui.getCore().byId("flowstepDropdown"));
 		sap.ui.getCore().byId("flowstepDropdown").destroy();
 		sap.ui.getCore().byId("L-FlowAdapters").destroy();
+		
 	}
 	
 	if( connectionMatricExists == true ){
+		//addComponentTypeDropDown();
 		return sap.ui.getCore().byId("connectorDropdown");
 	}
 	else{
-	
+		addComponentTypeDropDown();
 		myConnectorAdaptersSelector = new sap.ui.commons.DropdownBox("connectorDropdown",{ 
 			change: function(oEvent){
 //                sap.ui.getCore().byId("TextFieldKey").setValue(oEvent.oSource.getSelectedKey());
@@ -93,7 +114,7 @@ function getConnectionMatrix(){
 	oLabel.setLabelFor(myConnectorAdaptersSelector);
 	//oCell.addContent(oLabel, myAdaptersSelector);
 
-	oMatrix.createRow(oLabel,myConnectorAdaptersSelector);
+	fixedMatrix.createRow(oLabel,myConnectorAdaptersSelector);
 	//oConnectorMatrix.placeAt('content');
 	//oMatrix.createRow(oConnectorMatrix);
 
@@ -107,44 +128,37 @@ function getFlowStepMatrix(){
 	
 	if(connectionMatricExists == true){
 		connectionMatricExists = false;
+		
+		fixedMatrix.removeAllRows();
+		//fixedMatrix.removeRow(sap.ui.getCore().byId("L-ConnectorAdapters"),sap.ui.getCore().byId("connectorDropdown"));
 		sap.ui.getCore().byId("connectorDropdown").destroy();
 		sap.ui.getCore().byId("L-ConnectorAdapters").destroy();
 	}
 	
 	if( flowStepMatrixExists == true ){
+		addComponentTypeDropDown();
 		return sap.ui.getCore().byId("flowstepDropdown");
 	}
 	else{
-		
+		addComponentTypeDropDown();
 		myFlowStepAdaptersSelector = new sap.ui.commons.DropdownBox("flowstepDropdown",{ 
 			change: function(oEvent){
 //              sap.ui.getCore().byId("TextFieldKey").setValue(oEvent.oSource.getSelectedKey());
 //              sap.ui.getCore().byId("TextFieldId").setValue(oEvent.oSource.getSelectedItemId());
-			processDropDownFlowStep();
+			//processDropDownFlowStep();
+				addRemoveFlowStepsToRMap();
               }});
-		myFlowStepAdaptersSelector.setTooltip("Select the adapter.");
+		myFlowStepAdaptersSelector.setTooltip("Select the step.");
 		myFlowStepAdaptersSelector.setEditable(true);
 		myFlowStepAdaptersSelector.setWidth("200px");
 		
-		var dItem = new sap.ui.core.ListItem("Mapping");
-		dItem.setText("Mapping");
-		myFlowStepAdaptersSelector.addItem(dItem);
+		flowList = getFlowStepList();
 		
-		dItem = new sap.ui.core.ListItem("Signer");
-		dItem.setText("Signer");
-		myFlowStepAdaptersSelector.addItem(dItem);
-		
-		dItem = new sap.ui.core.ListItem("Verifier");
-		dItem.setText("Verifier");
-		myFlowStepAdaptersSelector.addItem(dItem);
-		
-		dItem = new sap.ui.core.ListItem("Encoder");
-		dItem.setText("Encoder");
-		myFlowStepAdaptersSelector.addItem(dItem);
-		
-		dItem = new sap.ui.core.ListItem("Decoder");
-		dItem.setText("Decoder");
-		myFlowStepAdaptersSelector.addItem(dItem);
+		for(item in flowList){
+			var dItem = new sap.ui.core.ListItem(flowList[item]);
+			dItem.setText(flowList[item]);
+			myFlowStepAdaptersSelector.addItem(dItem);
+		}
 		
 		oLabel = new sap.ui.commons.Label({
 			id : 'L-FlowAdapters',
@@ -152,7 +166,7 @@ function getFlowStepMatrix(){
 		
 		//oCell.addContent(myAdaptersSelector);
 		oLabel.setLabelFor(myFlowStepAdaptersSelector);
-		oMatrix.createRow(oLabel, myFlowStepAdaptersSelector);
+		fixedMatrix.createRow(oLabel, myFlowStepAdaptersSelector);
 
 		flowStepMatrixExists = true;
 		//myFlowStepAdaptersSelector.attachEvent('change', processDropDownFlowStep(myFlowStepAdaptersSelector));
@@ -160,6 +174,105 @@ function getFlowStepMatrix(){
 	}
 }
 
+function addComponentTypeDropDown(){
+	
+	if(sap.ui.getCore().byId("fixedMatrix")==undefined){
+		
+		fixedMatrix = new sap.ui.commons.layout.MatrixLayout({
+			id : 'fixedMatrix',
+			layoutFixed : true,
+			width : '1000px',
+			columns : 5,
+			widths : ['150px', '250px', '200px', '200px', '200px'] });
+	}
+	
+//	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
+//		colSpan: 5 });
+
+	if(sap.ui.getCore().byId("L-Category")!=undefined){
+		var oLabel = sap.ui.getCore().byId("L-Category");
+	}
+	else{
+		var oLabel = new sap.ui.commons.Label({
+			id : 'L-Category',
+			text : 'Category: ' });
+	}
+	
+	myCategorySelector = getCategorySelector( );
+	oLabel.setLabelFor(myCategorySelector);
+	fixedMatrix.createRow(oLabel, myCategorySelector);
+
+	fixedMatrix.placeAt('fixed');
+}
+
+function addHeaderInfo(){
+	//trying matrix layout
+	oMatrix = new sap.ui.commons.layout.MatrixLayout({
+		id : 'parentMatrix',
+		layoutFixed : true,
+		width : '1000px',
+		columns : 5,
+		widths : ['150px', '250px', '200px', '200px', '200px'] });
+
+	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
+		colSpan: 5 });
+
+	var oTV = new sap.ui.commons.TextView({
+		id : 'glue-integrate',
+		text : 'Glue Integrate',
+		design : sap.ui.commons.TextViewDesign.H1 });
+
+	oCell.addContent(oTV);
+	oMatrix.createRow(oCell);
+	oMatrix.placeAt('header');
+	
+	//let me try roadmap control
+	oRMap = new sap.ui.commons.RoadMap("rMap");
+
+	//create the RoadMap steps
+	var oStep1 = new sap.ui.commons.RoadMapStep("sender", {label: "Sender" });
+	var oStep2 = new sap.ui.commons.RoadMapStep("flowstep", {label: "Flow Steps"});
+	var oStep3 = new sap.ui.commons.RoadMapStep("receiver", {label: "Receiver"});
+	
+	globalRStep2 = oStep2;
+	
+	oRMap.attachStepSelected(function(oEvent){
+		//alert(oRMap.getSelectedStep()); 
+		rMapStep = oRMap.getSelectedStep();
+		
+		if(rMapStep == "sender"){
+			setConnectorCategorySelected();
+		}
+		else if(rMapStep == "flowstep" ){
+			setFlowStepCategorySelected();
+			oFormMatrix.removeAllRows();
+			if(rMapStep != "flowstep"){
+				//console.log(rMapStep.charAt(0)+rMapStep.substring(1,rMapStep.length - 1));
+				myFlowStepAdaptersSelector.setSelectedItemId(rMapStep.charAt(0).toUpperCase()+rMapStep.substring(1,rMapStep.length));
+				//myFlowStepAdaptersSelector.fireEvent('change');
+			}
+			myFlowStepAdaptersSelector.fireEvent('change');
+		}
+		else if(rMapStep == "receiver"){
+			setConnectorCategorySelected();
+		}
+
+	});
+	
+	//add steps to the RoadMap
+	oRMap.addStep(oStep1);
+	oRMap.addStep(oStep2);
+	oRMap.addStep(oStep3);
+
+	//Set the first step as selected
+	oRMap.setSelectedStep("sender");
+
+	//Set the number of visible steps
+	oRMap.setNumberOfVisibleSteps(10);
+
+	//Place the control on the UI	
+	oRMap.placeAt("header");
+}
 sap.ui.jsview("integrate.test", {
 
 	/** Specifies the Controller belonging to this View. 
@@ -178,96 +291,17 @@ sap.ui.jsview("integrate.test", {
 
 	createContent : function(oController) {
 		
-		//let me try roadmap control
-		oRMap = new sap.ui.commons.RoadMap("rMap");
-
-		//create the RoadMap steps
-		var oStep1 = new sap.ui.commons.RoadMapStep("sender", {label: "Sender" });
-		var oStep2 = new sap.ui.commons.RoadMapStep("flowstep", {label: "Flow Steps"});
-		var oStep3 = new sap.ui.commons.RoadMapStep("receiver", {label: "Receiver"});
-
-		//create sub steps for step 2
-		//need to make this dynamic later
-		var oSubStep1 = new sap.ui.commons.RoadMapStep("mapping", {label: "Mapping"});
-		var oSubStep2 = new sap.ui.commons.RoadMapStep("signer", {label: "Signer"});
-		var oSubStep3 = new sap.ui.commons.RoadMapStep("verifier", {label: "Verifier"});
-		var oSubStep4 = new sap.ui.commons.RoadMapStep("encoder", {label: "Encoder"});
-		var oSubStep5 = new sap.ui.commons.RoadMapStep("decoder", {label: "Decoder"});
+		addHeaderInfo();
 		
-		oRMap.attachStepSelected(function(oEvent){
-			//alert(oRMap.getSelectedStep()); 
-			rMapStep = oRMap.getSelectedStep();
-			
-			if(rMapStep == "sender"){
-				setConnectorCategorySelected();
-			}
-			else if(rMapStep == "flowstep" || rMapStep == "mapping" || rMapStep == "signer" || rMapStep == "verifier" || rMapStep == "encoder" || rMapStep == "decoder"){
-				setFlowStepCategorySelected();
-				oFormMatrix.removeAllRows();
-				if(rMapStep != "flowstep"){
-					//console.log(rMapStep.charAt(0)+rMapStep.substring(1,rMapStep.length - 1));
-					myFlowStepAdaptersSelector.setSelectedItemId(rMapStep.charAt(0).toUpperCase()+rMapStep.substring(1,rMapStep.length));
-					myFlowStepAdaptersSelector.fireEvent('change');
-				}
-				
-			}
-			else if(rMapStep == "receiver"){
-				setConnectorCategorySelected();
-			}
-		});
-		
-		//add sub steps to step 3
-		oStep2.addSubStep(oSubStep1);
-		oStep2.addSubStep(oSubStep2);
-		oStep2.addSubStep(oSubStep3);
-		oStep2.addSubStep(oSubStep4);
-		oStep2.addSubStep(oSubStep5);
-		
-		//add steps to the RoadMap
-		oRMap.addStep(oStep1);
-		oRMap.addStep(oStep2);
-		oRMap.addStep(oStep3);
+		//////////////////////
 
-		//Set the first step as selected
-		oRMap.setSelectedStep("sender");
-
-		//Set the number of visible steps
-		oRMap.setNumberOfVisibleSteps(10);
-
-		//Place the control on the UI	
-		oRMap.placeAt("content");
-		
-		
-		//trying matrix layout
-		oMatrix = new sap.ui.commons.layout.MatrixLayout({
-			id : 'parentMatrix',
-			layoutFixed : true,
-			width : '1000px',
-			columns : 5,
-			widths : ['150px', '250px', '200px', '200px', '200px'] });
-
-		var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
-			colSpan: 5 });
-
-		var oTV = new sap.ui.commons.TextView({
-			id : 'glue-integrate',
-			text : 'Glue Integrate',
-			design : sap.ui.commons.TextViewDesign.H1 });
-
-		oCell.addContent(oTV);
-		oMatrix.createRow(oCell);
-		//oMatrix.placeAt('content');
-		
-		var oLabel = new sap.ui.commons.Label({
-			id : 'L-Category',
-			text : 'Category: ' });
-
+		addComponentTypeDropDown();
 		///////////////
 		
-		myCategorySelector = getCategorySelector( );
-		oLabel.setLabelFor(myCategorySelector);
-		oMatrix.createRow(oLabel, myCategorySelector);
-		oMatrix.placeAt('content');
+//		myCategorySelector = getCategorySelector( );
+//		oLabel.setLabelFor(myCategorySelector);
+//		fixedMatrix.createRow(oLabel, myCategorySelector);
+		//oMatrix.placeAt('header');
 
 		myCategorySelector.attachEvent('change', function processCategoryDDSelection(){
 			console.log(myCategorySelector.getLiveValue());
@@ -391,8 +425,6 @@ function showFormAndButtons(attrib_objects, adap_type){
 		});
 	}
 	
-	// otextinput.placeAt("target"+count);
-	
 	count++;
 	form.push(otextview);
 	form.push(otextinput);
@@ -420,12 +452,6 @@ function showFormAndButtons(attrib_objects, adap_type){
 	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
 		colSpan: 4 });
 	
-	//try form
-//	if(!sap.ui.getCore().byId("sf"+adap_type)){
-//		//oMatrix.createRow(sap.ui.getCore().byId("sf"+adap_type));
-//		//sap.ui.getCore().byId("sf"+adap_type).placeAt("form");
-//	}
-//	else{
 	
 	if(sap.ui.getCore().byId("sf"+adap_type)!=undefined){
 		
@@ -439,24 +465,84 @@ function showFormAndButtons(attrib_objects, adap_type){
 		maxContainerCols: 2,
 		minWidth: 200,
 		labelMinWidth: 180,
+		//layout : sap.ui.commons.form.SimpleFormLayout,
 		content:form
 		});
 	}
 	
 	oCell.addContent(oSimpleForm);
 	oFormMatrix.createRow(oCell);
-
+	
 	var btn;
-	if(sap.ui.getCore().byId("submit"+adap_type)!=undefined){
+	if(oRMap.getSelectedStep()=="receiver"){
 		
-		btn  = sap.ui.getCore().byId("submit"+adap_type);
+		
+		if(sap.ui.getCore().byId("submit"+adap_type)!=undefined){
+			
+			btn  = sap.ui.getCore().byId("submit"+adap_type);
+			
+		}
+		else{
+			btn = new sap.ui.commons.Button("submit"+adap_type,{
+			text: "Create",
+			width: "400px",
+			press : function(oEvent){createXML(form, adap_type);}
+			});
+		}
+		oCell.addContent(btn);
+	}
+	
+	if(oRMap.getSelectedStep()!="receiver"){
+	
+		if(sap.ui.getCore().byId("next")!=undefined){
+			
+			btn  = sap.ui.getCore().byId("next");
+			
+		}
+		else{
+			btn = new sap.ui.commons.Button("next",{
+			text: "Next",
+			width: "400px",
+			press : function(oEvent){showNextRoadMap();}
+			});
+		}
+	
+		oCell.addContent(btn);
+	}
+	oFormMatrix.createRow(oCell);
+
+}
+
+function addRemoveFlowStepsToRMap(){
+	var btn;
+	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
+		colSpan: 4 });
+	
+	if(sap.ui.getCore().byId("addflowstep")!=undefined){
+		
+		btn  = sap.ui.getCore().byId("addflowstep");
 		
 	}
 	else{
-		btn = new sap.ui.commons.Button("submit"+adap_type,{
-		text: "Create XML",
-		width: "200px",
-		press : function(oEvent){createXML(form, adap_type);}
+		btn = new sap.ui.commons.Button("addflowstep",{
+		text: "Add Step",
+		width: "100px",
+		press : function(oEvent){addFlowSteptoRoadMap(myFlowStepAdaptersSelector.getLiveValue());}
+		});
+	}
+	oCell.addContent(btn);
+	
+	var btn;
+	if(sap.ui.getCore().byId("removeflowstep")!=undefined){
+		
+		btn  = sap.ui.getCore().byId("removeflowstep");
+		
+	}
+	else{
+		btn = new sap.ui.commons.Button("removeflowstep",{
+		text: "Remove Step",
+		width: "100px",
+		press : function(oEvent){removeFlowStepFromRoadMap(myFlowStepAdaptersSelector.getLiveValue());}
 		});
 	}
 	oCell.addContent(btn);
@@ -468,15 +554,13 @@ function showFormAndButtons(attrib_objects, adap_type){
 	}
 	else{
 		btn = new sap.ui.commons.Button("next",{
-		text: "Next Step",
+		text: "Next",
 		width: "200px",
 		press : function(oEvent){showNextRoadMap();}
 		});
 	}
-	
 	oCell.addContent(btn);
 	oFormMatrix.createRow(oCell);
-
 }
 
 function showFlowFormAndButtons(){
@@ -550,6 +634,7 @@ function showFlowFormAndButtons(){
 		//oMatrix.createRow(sap.ui.getCore().byId("sf"+adap_type));
 		oFormMatrix = sap.ui.getCore().byId("formMatrix");
 		oFormMatrix.removeAllRows();
+		//oFormMatrix.destroyRows();
 	}
 	else{
 	oFormMatrix = new sap.ui.commons.layout.MatrixLayout({
@@ -564,7 +649,7 @@ function showFlowFormAndButtons(){
 	}
 	
 	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
-		colSpan: 4 });
+		colSpan: 4, rowSpan :4 ,padding :10 });
 	
 	//try form
 //	if(!sap.ui.getCore().byId("sf"+adap_type)){
@@ -592,20 +677,23 @@ function showFlowFormAndButtons(){
 	oCell.addContent(oSimpleForm);
 	oFormMatrix.createRow(oCell);
 
-	var btn;
-	if(sap.ui.getCore().byId("submit"+adap_type)!=undefined){
+	if(oRMap.getSelectedStep()=="receiver"){
 		
-		btn  = sap.ui.getCore().byId("submit"+adap_type);
-		
+		var btn;
+		if(sap.ui.getCore().byId("submit"+adap_type)!=undefined){
+			
+			btn  = sap.ui.getCore().byId("submit"+adap_type);
+			
+		}
+		else{
+			btn = new sap.ui.commons.Button("submit"+adap_type,{
+			text: "Create",
+			width: "400px",
+			press : function(oEvent){createXML(form, adap_type);}
+			});
+		}
+		oCell.addContent(btn);
 	}
-	else{
-		btn = new sap.ui.commons.Button("submit"+adap_type,{
-		text: "Create XML",
-		width: "200px",
-		press : function(oEvent){createXML(form, adap_type);}
-		});
-	}
-	oCell.addContent(btn);
 	
 	if(sap.ui.getCore().byId("next")!=undefined){
 		
@@ -614,8 +702,8 @@ function showFlowFormAndButtons(){
 	}
 	else{
 		btn = new sap.ui.commons.Button("next",{
-		text: "Next Step",
-		width: "200px",
+		text: "Next",
+		width: "400px",
 		press : function(oEvent){showNextRoadMap();}
 		});
 	}
@@ -626,7 +714,34 @@ function showFlowFormAndButtons(){
 
 function showNextRoadMap(){
 	console.log("Inside showNextRoadMap function");
-	//oRMap.
+	var stepnow = oRMap.getSelectedStep();
+	
+	if(stepnow == "sender"){
+		oRMap.setSelectedStep("flowstep");
+		oRMap.fireEvent('stepSelected');
+		
+	}
+//	else if(stepnow == "receiver"){
+//		oRMap.setSelectedStep(sSelectedStep);
+//	}
+	else if(stepnow == "flowstep"){
+		
+		oRMap.setSelectedStep(step2list[0]);
+		oRMap.fireEvent('stepSelected');
+	}
+	else{
+		//var sSelectedStep;
+		var idx = step2list.indexOf(stepnow);
+		if(idx == step2list.length - 1){
+			oRMap.setSelectedStep("receiver");
+			oRMap.fireEvent('stepSelected');
+		}
+		else{
+			oRMap.setSelectedStep(step2list[idx+1]);
+			oRMap.fireEvent('stepSelected');
+		}
+	}
+	
 	
 }
 
@@ -692,5 +807,42 @@ function processDropDownFlowStep(myAdaptersSelector){
 //	attrib_objects = oData1.Attribute;
 //	}
 
-	showFlowFormAndButtons();
+	//showFlowFormAndButtons();
+	addFlowSteptoRoadMap(adap_type);
+}
+
+function addFlowSteptoRoadMap(stepName){
+	
+	var stepId = stepName.charAt(0).toLowerCase()+stepName.substring(1,stepName.length);
+	
+	if(sap.ui.getCore().byId(stepId)!=undefined){
+		
+		obj  = sap.ui.getCore().byId(stepId);
+		globalRStep2.addSubStep(obj);
+	}
+	else{	
+		var oSubStep = new sap.ui.commons.RoadMapStep(stepId, {label: stepName});
+		globalRStep2.addSubStep(oSubStep);
+	}
+	if(step2list.indexOf(stepId)<0)
+		step2list.push(stepId);
+	console.log(step2list);
+}
+
+function removeFlowStepFromRoadMap(stepName){
+	console.log("Inside removeFlowStepFromRoadMap function");
+	stepName = oRMap.getSelectedStep();
+	var stepId = stepName.charAt(0).toLowerCase()+stepName.substring(1,stepName.length);
+	//console.log(stepId);
+	
+	//obj  = sap.ui.getCore().byId(stepId);
+	globalRStep2.removeSubStep(stepId);
+	
+	var index = step2list.indexOf(stepId);
+	
+	if (index > -1) {
+		step2list.splice(index, 1);
+	}
+	//step2list.pop(stepId);
+	console.log(step2list);
 }
