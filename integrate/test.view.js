@@ -20,7 +20,8 @@
 	var oParentMatrix,oTreeMatrix,oFormMatrix, oHeaderMatrix, oDropDownMatrix;
 	var oSplitterV;
 	var form;
-	var connXML, FSXML, RecXML;
+	var connXML = "\n", FSXML = "\n", RecXML = "\n";
+	var headerkeylist;
 	
 function prepareUILayout(){
 	
@@ -68,7 +69,7 @@ function prepareUILayout(){
 		layoutFixed : true,
 		width : '1000px',
 		columns : 2,
-		widths : [ '200px', '500px'] });
+		widths : [ '200px', '700px'] });
 	
 	//splitter code
 	oSplitterV.addFirstPaneContent(oTreeMatrix);	
@@ -95,16 +96,87 @@ function getFlowStepList(){
 	//to do - real logic to retrieve the list
 }
 
+function getAdapterList(){
+	//simulation at the moment
+	return ["dummy1", "dummy2", "dummy3", "dummy4"];
+	
+	//to do - real logic to retrieve the list
+//	var data = new sap.ui.model.json.JSONModel();
+//	data.loadData("http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader?$format=json", null, false);
+//	
+//	//var datastring = {"d":{"results":[{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1294","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')","type":"glue.services.GlueMetadataHeaderType"},"ID":"146","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1530","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1566","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1620","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1901","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1931","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1992","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2.6575379443878093 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2019","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2024","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')","type":"glue.services.GlueMetadataHeaderType"},"ID":"216","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2325","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3.8657673193643123 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3002","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3037","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3053","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3409","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3506","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3585","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3616","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3664","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3665","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3963","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4165","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4339","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')","type":"glue.services.GlueMetadataHeaderType"},"ID":"434","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4348","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4374","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4521","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4525","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4569","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4669","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4672","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4859","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4930","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5123","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')","type":"glue.services.GlueMetadataHeaderType"},"ID":"520","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5313","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5327","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')","type":"glue.services.GlueMetadataHeaderType"},"ID":"542","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5519","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5562","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')","type":"glue.services.GlueMetadataHeaderType"},"ID":"586","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6129","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6200","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')","type":"glue.services.GlueMetadataHeaderType"},"ID":"624","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')","type":"glue.services.GlueMetadataHeaderType"},"ID":"630","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6354","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6549","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6554","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6581","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6637","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6658","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')","type":"glue.services.GlueMetadataHeaderType"},"ID":"682","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6871","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7089","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7136","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7245","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7492","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7544","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7588","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7775","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')","type":"glue.services.GlueMetadataHeaderType"},"ID":"796","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8027","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8131","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8145","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8222","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8576","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8644","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8882","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8885","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')","type":"glue.services.GlueMetadataHeaderType"},"ID":"892","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9213","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9239","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9303","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9384","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9450","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9511","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9637 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9760","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9947","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')/GMetaData"}}}]}};
+//	var datastring = data.getJSON();
+//	//console.log(datastring);
+//	
+//	var objs = data.getProperty("/d/results", null);
+//	var list = [];
+//	//console.log(objs);
+//	for(var v=0; v<objs.length; v++){
+//		if(list.indexOf(objs[v].TYPE)== -1)
+//		list.push(objs[v].TYPE);
+//	}
+//	return list;
+}
+
+function getAdapterDropDown(id){
+	var dd, lbl;
+	//id = id+'abcd';
+	if(sap.ui.getCore().byId(id+'label')!=undefined){
+		lbl = sap.ui.getCore().byId(id+'label');
+	}
+	else{
+	lbl = new sap.ui.commons.Label({
+		id : id+'label',
+		text : 'Template: ',
+		width: '200px'
+		//textAlign: "Right"
+			});
+	}
+
+	if(sap.ui.getCore().byId(id+'dd')!=undefined){
+		dd = sap.ui.getCore().byId(id+'dd');
+	}
+	else{
+	dd = new sap.ui.commons.DropdownBox(id+'dd');
+	dd.setTooltip("Select the category.");
+	dd.setEditable(true);
+	dd.setWidth("500px");
+	
+	//add logic to fill the data in the dd
+//	var dItem = new sap.ui.core.ListItem("Connector");
+//	dItem.setText("Connector");
+//	dd.addItem(dItem);
+//	
+//	dItem = new sap.ui.core.ListItem("FlowStep");
+//	dItem.setText("FlowStep");
+//	dd.addItem(dItem);
+	var list = getAdapterList();
+	
+	var con_count = 0;
+	for(var i=0;i<list.length;i++){
+		dItem = new sap.ui.core.ListItem("template_"+id+con_count);
+		dItem.setText(list[i]);
+		dd.addItem(dItem);
+		con_count++;
+	}
+	
+	}
+	
+	lbl.setLabelFor(dd);
+	oFormMatrix.createRow(lbl,dd);
+}
+
 function getConnectorList(){
 	var data = new sap.ui.model.json.JSONModel();
-	//data.loadData("http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader?$format=json", null, false);
+	data.loadData("http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader?$format=json", null, false);
 	
-	var datastring = {"d":{"results":[{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1294","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')","type":"glue.services.GlueMetadataHeaderType"},"ID":"146","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1530","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1566","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1620","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1901","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1931","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1992","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2.6575379443878093 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2019","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2024","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')","type":"glue.services.GlueMetadataHeaderType"},"ID":"216","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2325","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3.8657673193643123 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3002","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3037","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3053","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3409","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3506","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3585","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3616","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3664","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3665","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3963","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4165","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4339","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')","type":"glue.services.GlueMetadataHeaderType"},"ID":"434","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4348","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4374","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4521","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4525","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4569","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4669","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4672","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4859","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4930","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5123","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')","type":"glue.services.GlueMetadataHeaderType"},"ID":"520","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5313","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5327","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')","type":"glue.services.GlueMetadataHeaderType"},"ID":"542","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5519","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5562","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')","type":"glue.services.GlueMetadataHeaderType"},"ID":"586","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6129","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6200","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')","type":"glue.services.GlueMetadataHeaderType"},"ID":"624","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')","type":"glue.services.GlueMetadataHeaderType"},"ID":"630","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6354","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6549","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6554","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6581","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6637","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6658","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')","type":"glue.services.GlueMetadataHeaderType"},"ID":"682","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6871","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7089","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7136","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7245","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7492","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7544","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7588","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7775","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')","type":"glue.services.GlueMetadataHeaderType"},"ID":"796","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8027","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8131","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8145","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8222","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8576","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8644","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8882","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8885","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')","type":"glue.services.GlueMetadataHeaderType"},"ID":"892","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9213","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9239","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9303","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9384","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9450","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9511","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9637 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9760","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9947","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')/GMetaData"}}}]}};
-	console.log(datastring);
-	data.setJSON(datastring);
+	//var datastring = {"d":{"results":[{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1294","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1294')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')","type":"glue.services.GlueMetadataHeaderType"},"ID":"146","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('146')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1530","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1530')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1566","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1566')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1620","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1620')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1901","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1901')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1931","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1931')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')","type":"glue.services.GlueMetadataHeaderType"},"ID":"1992","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('1992')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2.6575379443878093 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2.6575379443878093%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2019","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2019')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2024","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2024')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')","type":"glue.services.GlueMetadataHeaderType"},"ID":"216","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('216')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')","type":"glue.services.GlueMetadataHeaderType"},"ID":"2325","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('2325')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3.8657673193643123 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3.8657673193643123%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3002","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3002')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3037","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3037')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3053","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3053')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3409","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3409')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3506","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3506')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3585","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3585')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3616","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3616')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3664","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3664')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3665","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3665')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')","type":"glue.services.GlueMetadataHeaderType"},"ID":"3963","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('3963')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4165","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4165')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4339","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4339')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')","type":"glue.services.GlueMetadataHeaderType"},"ID":"434","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('434')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4348","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4348')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4374","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4374')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4521","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4521')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4525","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4525')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4569","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4569')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4669","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4669')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4672","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4672')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4859","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4859')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')","type":"glue.services.GlueMetadataHeaderType"},"ID":"4930","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('4930')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5","TYPE":"type","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5123","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5123')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')","type":"glue.services.GlueMetadataHeaderType"},"ID":"520","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('520')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5313","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5313')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5327","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5327')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')","type":"glue.services.GlueMetadataHeaderType"},"ID":"542","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('542')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5519","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5519')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5562","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5562')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"5808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('5808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')","type":"glue.services.GlueMetadataHeaderType"},"ID":"586","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('586')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6129","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6129')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6200","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6200')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')","type":"glue.services.GlueMetadataHeaderType"},"ID":"624","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('624')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')","type":"glue.services.GlueMetadataHeaderType"},"ID":"630","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('630')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6354","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6354')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6549","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6549')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6554","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6554')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6581","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6581')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6637","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6637')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6658","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6658')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6808","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6808')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')","type":"glue.services.GlueMetadataHeaderType"},"ID":"682","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('682')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')","type":"glue.services.GlueMetadataHeaderType"},"ID":"6871","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('6871')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7089","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7089')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7136","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7136')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7245","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7245')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7394","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7394')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7492","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7492')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7544","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7544')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7588","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7588')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7670","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7670')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')","type":"glue.services.GlueMetadataHeaderType"},"ID":"7775","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('7775')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')","type":"glue.services.GlueMetadataHeaderType"},"ID":"796","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('796')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8027","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8027')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8131","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8131')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8145","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8145')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8222","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8222')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8576","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8576')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8644","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8644')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8882","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8882')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')","type":"glue.services.GlueMetadataHeaderType"},"ID":"8885","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('8885')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')","type":"glue.services.GlueMetadataHeaderType"},"ID":"892","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('892')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9213","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9213')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9239","TYPE":"type of ddta","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9239')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9303","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9303')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9384","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9384')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9450","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9450')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9511","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9511')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9637 ","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9637%20')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9760","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9760')/GMetaData"}}},{"__metadata": {"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')","type":"glue.services.GlueMetadataHeaderType"},"ID":"9947","TYPE":"type of data","GMetaData":{"__deferred":{"uri":"http://inblrll936.dhcp.blrl.sap.corp:8000/com/sap/glue/services/glue.xsodata/GlueMetadataHeader('9947')/GMetaData"}}}]}};
+	var datastring = data.getJSON();
+	//console.log(datastring);
 	
-	var objs = datastring.d.results;
+	var objs = data.getProperty("/d/results", null);
 	var list = [];
+	//console.log(objs);
 	for(var v=0; v<objs.length; v++){
 		if(list.indexOf(objs[v].TYPE)== -1)
 		list.push(objs[v].TYPE);
@@ -128,7 +200,7 @@ function getCategorySelector() {
 	myCategorySelector = new sap.ui.commons.DropdownBox("CategoryDropdown");
 	myCategorySelector.setTooltip("Select the category.");
 	myCategorySelector.setEditable(false);
-	myCategorySelector.setWidth("200px");
+	myCategorySelector.setWidth("500px");
 	
 	var dItem = new sap.ui.core.ListItem("Connector");
 	dItem.setText("Connector");
@@ -186,9 +258,9 @@ function getConnectionMatrix(){
                 }});
 		myConnectorAdaptersSelector.setTooltip("Select the adapter.");
 		myConnectorAdaptersSelector.setEditable(true);
-		myConnectorAdaptersSelector.setWidth("200px");
+		myConnectorAdaptersSelector.setWidth("500px");
 	
-	//list =	getConnectorList();
+	list =	getConnectorList();
 		
 	var dItem = new sap.ui.core.ListItem("IDOC");
 	dItem.setText("IDOC");
@@ -248,7 +320,7 @@ function getFlowStepMatrix(){
               }});
 		myFlowStepAdaptersSelector.setTooltip("Select the step.");
 		myFlowStepAdaptersSelector.setEditable(true);
-		myFlowStepAdaptersSelector.setWidth("200px");
+		myFlowStepAdaptersSelector.setWidth("500px");
 		
 		flowList = getFlowStepList();
 		
@@ -399,15 +471,18 @@ sap.ui.jsview("integrate.test", {
 			if (myCategorySelector.getLiveValue()=="Connector"){
 				//oFormMatrix.removeAllRows();
 				myConnectorAdaptersSelector = getConnectionMatrix( );
-				createXML("FlowStep", step2list, null );
+				getAdapterDropDown("connector");
+				createXML("FlowStep", step2list, null, false );
 				myConnectorAdaptersSelector.fireEvent('change');
 			}
 			else if (myCategorySelector.getLiveValue()=="FlowStep"){
-				createXML("Connector", form, myConnectorAdaptersSelector.getLiveValue() );
+				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
 				oFormMatrix.removeAllRows();
+				//getAdapterDropDown("connector");
 				myFlowStepAdaptersSelector =  getFlowStepMatrix();
 				//oFormMatrix.removeAllRows();
 				addRemoveFlowStepsToRMap();
+				getAdapterDropDown("flowstep");
 				//oFormMatrix.createRow(myFlowStepAdaptersSelector);
 			}
 
@@ -468,6 +543,7 @@ function processDropDownConnector(){
 			
 			addComponentTypeDropDown();
 			getConnectionMatrix();
+			getAdapterDropDown("connector");
 //			oFormMatrix.removeRow(oSimpleForm);
 			//oSimpleForm.destroy();
 		}
@@ -532,7 +608,7 @@ function showFormAndButtons(attrib_objects, adap_type){
 	else{
 		otextinput = new sap.ui.commons.TextField(textfield, {
 		value: textDefaultValue,
-		width: '200px'
+		width: '500px'
 		});
 	}
 	
@@ -586,7 +662,7 @@ function showFormAndButtons(attrib_objects, adap_type){
 			text: "Create",
 			width: "100px",
 			align: "Center",
-			press : function(oEvent){createXML("Receiver", form, myConnectorAdaptersSelector.getLiveValue())}
+			press : function(oEvent){createXML("Receiver", form, myConnectorAdaptersSelector.getLiveValue(), true)}
 			});
 		}
 		//oCell.addContent(btn);
@@ -688,8 +764,8 @@ function showFlowFormAndButtons(){
 	}
 	else{
 		otextinput = new sap.ui.commons.TextField(textfield, {
-		value: textDefaultValue
-		
+		value: textDefaultValue,
+		width: '500px'
 		});
 	}
 	
@@ -747,7 +823,7 @@ function showFlowFormAndButtons(){
 			btn = new sap.ui.commons.Button("submit"+adap_type,{
 			text: "Create",
 			width: "400px",
-			press : function(oEvent){createXML(form, adap_type);}  //<---- bug?
+			press : function(oEvent){createXML(form, adap_type, null, false);}  //<---- bug?
 			});
 		}
 		oCell.addContent(btn);
@@ -823,7 +899,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("mappingtypeinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -845,7 +921,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("mappingnameinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -869,13 +945,43 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("filterpathinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
 	}
 	else if(node.getText() == "Modifier"){
 		//console.log("Mapping is the focus");
+		if(sap.ui.getCore().byId("headerkeylistlabel"+id)!=undefined){
+			otextview = sap.ui.getCore().byId("headerkeylistlabel"+id);
+			//otextview.setText("Mapping Type");
+		}
+		else{
+			otextview = new sap.ui.commons.Label("headerkeylistlabel"+id,{
+			text: "Header Key Value List",
+			tooltip: "Header Key Value List"
+			});
+		}
+		
+		if(sap.ui.getCore().byId("headerkeylistinput"+id)!=undefined){
+			otextinput = sap.ui.getCore().byId("headerkeylistinput"+id);
+		}
+		else{
+			otextinput = new sap.ui.commons.ListBox({
+//				items : [
+//					 		new sap.ui.core.ListItem({text : 'Spring --> afdfdsf'}),
+//							new sap.ui.core.ListItem({text : 'Summer'}),
+//							new sap.ui.core.ListItem({text : 'Autumn'}),
+//							new sap.ui.core.ListItem({text : 'Winter'})
+//				  ],
+				 
+				});
+			headerkeylist = otextinput;
+		}
+		oFormMatrix.createRow(otextview, otextinput);
+		console.log("headerkeylistinput"+id);
+		
+		//KEY
 		if(sap.ui.getCore().byId("headerkeylabel"+id)!=undefined){
 			otextview = sap.ui.getCore().byId("headerkeylabel"+id);
 			//otextview.setText("Mapping Type");
@@ -893,10 +999,65 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("headerkeyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
+		
+		//VALUE
+		if(sap.ui.getCore().byId("headervaluelabel"+id)!=undefined){
+			otextview = sap.ui.getCore().byId("headervaluelabel"+id);
+			//otextview.setText("Mapping Type");
+		}
+		else{
+			otextview = new sap.ui.commons.Label("headervaluelabel"+id,{
+			text: "Header Value",
+			tooltip: "Header Value"
+			});
+		}
+		
+		if(sap.ui.getCore().byId("headervalueinput"+id)!=undefined){
+			otextinput = sap.ui.getCore().byId("headervalueinput"+id);
+		}
+		else{
+			otextinput = new sap.ui.commons.TextField("headervalueinput"+id, {
+			//value: textDefaultValue
+				width: '500px'
+			});
+		}
+		oFormMatrix.createRow(otextview, otextinput);
+		
+		//create button to update list
+		if(sap.ui.getCore().byId("headerlistaddbutton"+id)!=undefined){
+			var btn1 = sap.ui.getCore().byId("headerlistaddbutton"+id);
+		}
+		else{
+		
+			var btn1 = new sap.ui.commons.Button("headerlistaddbutton"+id,{
+				text: "Add Key",
+				width: "100px",
+				align: "Center",
+				press : function(oEvent){addHeaderKeyToList(id);}
+				});
+		}
+		//oFormMatrix.createRow(otextinput);
+		
+		//create button to update list
+		if(sap.ui.getCore().byId("headerlistdeletebutton"+id)!=undefined){
+			var btn2 = sap.ui.getCore().byId("headerlistdeletebutton"+id);
+		}
+		else{
+		
+			var btn2 = new sap.ui.commons.Button("headerlistdeletebutton"+id,{
+				text: "Remove Key",
+				width: "100px",
+				align: "Center",
+				press : function(oEvent){removeHeaderKeyFromList();}
+				});
+		}
+		oFormMatrix.createRow(new sap.ui.commons.layout.MatrixLayoutCell({
+			content: [btn1, btn2]
+		}));
 		
 		if(sap.ui.getCore().byId("modifierbodylabel"+id)!=undefined){
 			otextview = sap.ui.getCore().byId("modifierbodylabel"+id);
@@ -915,7 +1076,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("modifierbodyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -939,7 +1100,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("signerkeyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -963,7 +1124,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("verifierkeyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -987,7 +1148,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("encrypterkeyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -1011,7 +1172,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("decrypterkeyinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -1035,7 +1196,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("splittertokeninput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -1057,10 +1218,12 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("splittertypeinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
+		
+		
 	}
 	else if(node.getText() == "Datastore"){
 		//console.log("Mapping is the focus");
@@ -1081,7 +1244,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("datastorenameinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -1103,7 +1266,7 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("datastoremesidinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
@@ -1125,15 +1288,43 @@ function processTreeFlowSubStep(id){
 		else{
 			otextinput = new sap.ui.commons.TextField("datastoreoperationinput"+id, {
 			//value: textDefaultValue
-			
+				width: '500px'
 			});
 		}
 		oFormMatrix.createRow(otextview, otextinput);
 	}
 	
-	//button
-	btn  = sap.ui.getCore().byId("removeflowstep");
-	oFormMatrix.createRow(btn);
+	//create adapter dd line
+	var idd = node.getText().toLowerCase();
+	console.log(idd);
+	getAdapterDropDown(idd);
+	
+//	//console.log("Mapping is the focus");
+//	if(sap.ui.getCore().byId(idd+"adapterlabel")!=undefined){
+//		otextview = sap.ui.getCore().byId(idd+"adapterlabel");
+//		//otextview.setText("Filter Path");
+//	}
+//	else{
+//		otextview = new sap.ui.commons.Label(idd+"adapterlabel",{
+//		text: "Adapter",
+//		tooltip: "Adapter"
+//		});
+//	}
+//	
+//	if(sap.ui.getCore().byId(idd+"adapterinput")!=undefined){
+//		otextinput = sap.ui.getCore().byId(idd+"adapterinput");
+//	}
+//	else{
+//		otextinput = new sap.ui.commons.TextField(idd+"adapterinput", {
+//		//value: textDefaultValue
+//		
+//		});
+//	}
+//	oFormMatrix.createRow(otextview, otextinput);
+//	
+//	//button
+//	btn  = sap.ui.getCore().byId("removeflowstep");
+//	oFormMatrix.createRow(btn);
 }
 
 
@@ -1179,27 +1370,34 @@ function removeFlowStepFromRoadMap(stepName){
 	oFormMatrix.removeAllRows();
 }
 
-function createXML(catgory, inputobjects, liveValue){
+function createXML(catgory, inputobjects, liveValue, lastCall){
 	console.log("Inside createXML function");
 	console.log(inputobjects.length);
 	
 	//let's try xml model
-	var xmlFile = "<xml>";
+	var xmlFile = "";
+	if(catgory=="Sender")
+		xmlFile = "<xml>";
+	var idd;
+	var templ;
 	
 	if(catgory!="FlowStep"){
 		
 	
 		xmlFile = xmlFile + '\n' + "<component name='"+catgory+ "' type='"+liveValue+"'>";
+		if (catgory=="Sender" || catgory=="Receiver")
+			templ = sap.ui.getCore().byId("connectordd");
+		else if (catgory=="FlowStep")
+			templ = sap.ui.getCore().byId("flowstepdd");
 		
+		xmlFile = xmlFile + '\n' + "<parameter name='Template'>"+templ.getValue()+"</parameter>";
 		for (var i = 0; i < inputobjects.length; i=i+2) {
 			
-	//		if(catgory=="FlowStep"){
-	//			inputobjects[i] = sap.ui.getCore().byId(inputobjects[i]);
-	//			inputobjects[i+1] = sap.ui.getCore().byId(inputobjects[i+1]);
-	//		}
 			xmlFile = xmlFile + '\n' + "<parameter name='"+inputobjects[i].getText()+"'>"+inputobjects[i+1].getValue()+"</parameter>";
 		}
-		xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+		
+		//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+		xmlFile = xmlFile + '\n' +"</component>";
 	}
 	else{
 		
@@ -1208,6 +1406,7 @@ function createXML(catgory, inputobjects, liveValue){
 		for (var i = 0; i < inputobjects.length; i=i+1) {
 			//liveValue = sap.ui.getCore().byId(inputobjects[i]);
 			id = inputobjects[i];
+			idd = id;
 			
 			if(id.search("mapping")!= -1){
 				xmlFile = xmlFile + '\n' + "<component name='"+catgory+ "' type='"+"Mapping"+"'>";
@@ -1220,7 +1419,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("mappingnameinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 				//liveValue = "Mapping";
 			}
 			else if(id.search("filter") != -1){
@@ -1230,21 +1429,31 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("filterpathinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 				//liveValue = "Filter";
 			}
 			else if(id.search("modifier") != -1){
+//				xmlFile = xmlFile + '\n' + "<component name='"+catgory+ "' type='"+"Modifier"+"'>";
+//				key = sap.ui.getCore().byId("headerkeylabel"+id);
+//				if(key==undefined) return;
+//				value = sap.ui.getCore().byId("headerkeyinput"+id);
+//				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
+				
+				//new list processing
 				xmlFile = xmlFile + '\n' + "<component name='"+catgory+ "' type='"+"Modifier"+"'>";
-				key = sap.ui.getCore().byId("headerkeylabel"+id);
-				if(key==undefined) return;
-				value = sap.ui.getCore().byId("headerkeyinput"+id);
-				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
+				var arr = headerkeylist.getItems();
+				var tmp, tmparr;
+				for( var itm in arr){
+					tmp = arr[itm].getText();
+					tmparr = tmp.split("|");
+					xmlFile = xmlFile + '\n' + "<header key= '"+tmparr[0] +"'>"+ tmparr[1]+"</header>";
+				}
 				
 				key = sap.ui.getCore().byId("modifierbodylabel"+id);
 				value = sap.ui.getCore().byId("modifierbodyinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 				//liveValue = "Modifier";
 			}
 			else if(id.search("signer") != -1){
@@ -1254,7 +1463,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("signerkeyinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 				//liveValue = "Signer";
 			}
 			else if(id.search("verifier") != -1){
@@ -1265,7 +1474,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("verifierkeyinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 			}
 			else if(id.search("encrypter") != -1){
 				//liveValue = "Encrypter";
@@ -1275,7 +1484,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("encrypterkeyinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 			}
 			else if(id.search("decryptor") != -1){
 				//liveValue = "Decryptor";
@@ -1285,7 +1494,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("decrypterkeyinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 			}
 			else if(id.search("splitter") != -1){
 				//liveValue = "Splitter";
@@ -1299,7 +1508,7 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("splittertypeinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 			}
 			else if(id.search("datastore") != -1){
 				//liveValue = "Datastore";
@@ -1317,18 +1526,65 @@ function createXML(catgory, inputobjects, liveValue){
 				value = sap.ui.getCore().byId("datastoreoperationinput"+id);
 				xmlFile = xmlFile + '\n' + "<parameter name='"+key.getText()+"'>"+value.getValue()+"</parameter>";
 				
-				xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+				//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 			}
 			
+			//adapter drop down
+			
+			if(idd.search("mapping")!= -1)
+				idd = "mapping";
+			else if(idd.search("filter")!= -1)
+				idd = "filter";
+			else if(idd.search("modifier")!= -1)
+				idd = "modifier";
+			else if(idd.search("signer")!= -1)
+				idd = "signer";
+			else if(idd.search("verifier")!= -1)
+				idd = "verifier";
+			else if(idd.search("encrypter")!= -1)
+				idd = "encrypter";
+			else if(idd.search("decryptor")!= -1)
+				idd = "decryptor";
+			else if(idd.search("splitter")!= -1)
+				idd = "splitter";
+			else if(idd.search("datastore")!= -1)
+				idd = "datastore";
+								
+			key = sap.ui.getCore().byId(idd+"label");
+			value = sap.ui.getCore().byId(idd+"dd");
+			xmlFile = xmlFile + '\n' + "<parameter name='Template'>"+value.getLiveValue()+"</parameter>";
+			
+			//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
+			xmlFile = xmlFile + '\n' +"</component>";
 		}
+		
+		
 	}
 	//xmlFile = xmlFile + '\n' +"</component>\n</xml>";
 	console.log(xmlFile);
 	
-	if(catgory == "Connector")
+	if(catgory == "Sender")
 		ConnXML = xmlFile;
 	else if(catgory=="FlowStep")
 		FSXML = xmlFile;
 	else if(catgory=="Receiver")
 		RecXML = xmlFile;
+	
+	if(lastCall == true)
+	console.log("Full XML :\n"+ConnXML+ '\n'+FSXML+ '\n'+ RecXML+"\n</xml>");
+}
+
+function addHeaderKeyToList(id){
+	var key, value;
+	key = sap.ui.getCore().byId("headerkeyinput"+id);
+
+	value = sap.ui.getCore().byId("headervalueinput"+id);
+	
+	//list = sap.ui.getCore().byId("headerkeylistinput"+id);
+	//console.log("headerkeylistinput"+id);
+	headerkeylist.addItem(new sap.ui.core.ListItem({text : key.getValue()+'|'+value.getValue()}));
+}
+
+function removeHeaderKeyFromList(){
+	headerkeylist.removeItem(headerkeylist.getSelectedItem());
 }
