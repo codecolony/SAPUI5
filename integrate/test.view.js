@@ -24,7 +24,11 @@
 	var headerkeylist;
 	
 function prepareUILayout(){
-	
+
+	if(sap.ui.getCore().byId('headerMatrix')!=undefined){
+		oHeaderMatrix = sap.ui.getCore().byId('headerMatrix');
+	}
+	else{
 	oHeaderMatrix = new sap.ui.commons.layout.MatrixLayout({
 		id : 'headerMatrix',
 		layoutFixed : true,
@@ -33,7 +37,12 @@ function prepareUILayout(){
 		widths : ['500px'] });
 	
 	oHeaderMatrix.placeAt('header');
+	}
 	
+	if(sap.ui.getCore().byId('splitterV')!=undefined){
+		oSplitterV = sap.ui.getCore().byId('splitterV');
+	}
+	else{
 	oSplitterV = new sap.ui.commons.Splitter("splitterV"); 
 	oSplitterV.setSplitterOrientation(sap.ui.commons.Orientation.vertical);
 	oSplitterV.setSplitterPosition("30%");
@@ -43,50 +52,39 @@ function prepareUILayout(){
 	oSplitterV.setHeight("1000px");
 	oSplitterV.setSplitterBarVisible(true);
 	oSplitterV.setShowScrollBars(false);
-	oSplitterV.placeAt("content");
+	//oSplitterV.placeAt("content");
+	}
 	
-//	oParentMatrix = new sap.ui.commons.layout.MatrixLayout({
-//		id : 'parentMatrix',
-//		layoutFixed : true,
-//		width : '1000px',
-//		columns : 2,
-//		//separation: sap.ui.commons.layout.Separation.LargeWithLine,
-//		widths : ['500px', '500px'] });
-//	
-//	oParentMatrix.placeAt('content');
-//	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
-//		colSpan: 15 });
-
+	if(sap.ui.getCore().byId('treeMatrix')!=undefined){
+		oTreeMatrix = sap.ui.getCore().byId('treeMatrix');
+	}
+	else{
 	oTreeMatrix = new sap.ui.commons.layout.MatrixLayout({
 		id : 'treeMatrix',
 		layoutFixed : true,
 		width : '500px',
 		columns : 1,
 		widths : ['500px'] });
+	}
 	
+	if(sap.ui.getCore().byId('formMatrix')!=undefined){
+		oFormMatrix = sap.ui.getCore().byId('formMatrix');
+	}
+	else{
 	oFormMatrix = new sap.ui.commons.layout.MatrixLayout({
 		id : 'formMatrix',
 		layoutFixed : true,
 		width : '1000px',
 		columns : 2,
 		widths : [ '200px', '700px'] });
+	}
 	
 	//splitter code
+	oSplitterV.removeAllFirstPaneContent();
+	oSplitterV.removeAllSecondPaneContent();
 	oSplitterV.addFirstPaneContent(oTreeMatrix);	
 	oSplitterV.addSecondPaneContent(oFormMatrix);		
 	
-//	oDropDownMatrix = new sap.ui.commons.layout.MatrixLayout({
-//		id : 'dropDownMatrix',
-//		layoutFixed : true,
-//		width : '600px',
-//		columns : 2,
-//		widths : ['115px', '600px'] });
-	
-//	oParentMatrix.createRow(oTreeMatrix, oFormMatrix);
-	//oParentMatrix.createRow(oTreeMatrix);
-	//oParentMatrix.createRow(oDropDownMatrix);
-	//oParentMatrix.createRow(oFormMatrix);
-
 }
 
 function getFlowStepList(){
@@ -260,7 +258,7 @@ function getConnectionMatrix(){
 		myConnectorAdaptersSelector.setEditable(true);
 		myConnectorAdaptersSelector.setWidth("500px");
 	
-	list =	getConnectorList();
+	//list =	getConnectorList();
 		
 	var dItem = new sap.ui.core.ListItem("IDOC");
 	dItem.setText("IDOC");
@@ -381,12 +379,17 @@ function addHeaderInfo(){
 	//trying matrix layout
 	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
 		colSpan: 15 });
-
-	var oTV = new sap.ui.commons.TextView({
+	
+	if(sap.ui.getCore().byId("glue-integrate")!=undefined){
+		var oTV = sap.ui.getCore().byId("glue-integrate");
+	}
+	else{
+		var oTV = new sap.ui.commons.TextView({
 		id : 'glue-integrate',
 		text : 'Glue Integrate',
 		design : sap.ui.commons.TextViewDesign.H1 });
-
+	}
+	
 	oCell.addContent(oTV);
 	oHeaderMatrix.createRow(oCell);
 	//oHeaderMatrix.placeAt('header');
@@ -456,47 +459,162 @@ sap.ui.jsview("integrate.test", {
 
 	createContent : function(oController) {
 		
-		prepareUILayout();
-		addHeaderInfo();
-		getTree();
-		//;
-		//oNode1.select();
+		homepage();
 		
-		//adds component dropdown to form matrix
-		addComponentTypeDropDown();
+		//creating shell
+		var oShell = new sap.ui.ux3.Shell("myShell", {
+			appTitle: "SAPUI5 Gold Reflection Shell",
+			appIcon: "images/SAPLogo.gif",
+			appIconTooltip: "SAP logo",
+			showLogoutButton: true,
+			showSearchTool: true,
+			showInspectorTool: true,
+			showFeederTool: true,
+			worksetItems: [new sap.ui.ux3.NavigationItem("WI_home",{key:"wi_home",text:"Home"}),
+			               new sap.ui.ux3.NavigationItem("WI_1",{key:"wi_1",text:"Examples", subItems:[
+			                  new sap.ui.ux3.NavigationItem("WI_1_1",{key:"wi_1_1",text:"Text"}),
+			                  new sap.ui.ux3.NavigationItem("WI_1_2",{key:"wi_1_2",text:"Button"}),
+			                  new sap.ui.ux3.NavigationItem("WI_1_3",{key:"wi_1_3",text:"Image"})]}),
+			               new sap.ui.ux3.NavigationItem("WI_API",{key:"wi_api",text:"API Documentation"})],
+			paneBarItems: [ new sap.ui.core.Item("PI_Date",{key:"pi_date",text:"date"}),
+			                new sap.ui.core.Item("PI_Browser",{key:"pi_browser",text:"browser"})],
+			content: oSplitterV,
+			toolPopups: [new sap.ui.ux3.ToolPopup("contactTool",{
+										title: "New Contact",
+										tooltip: "Create New Contact",
+										icon: "images/Contact_regular.png",
+										iconHover: "images/Contact_hover.png",
+										content:[new sap.ui.commons.TextView({text:"Here could be a contact sheet."})],
+										buttons: [new sap.ui.commons.Button("cancelContactButton", {tehxt:"Cancel",press:function(oEvent){
+											sap.ui.getCore().byId("contactTool").close();
+										}})]
+									})],
+			headerItems: [new sap.ui.commons.TextView({text:"User Name",tooltip:"U.Name"}),
+			              new sap.ui.commons.Button({text:"Personalize",tooltip:"Personalize",press:function(oEvent){alert("Here could open an personalize dialog");}}),
+										new sap.ui.commons.MenuButton({
+											text: "Help",
+											tooltip: "Help Menu",
+											menu: new sap.ui.commons.Menu("menu1",{items:[
+												new sap.ui.commons.MenuItem("menuitem1",{text:"Help"}),
+												new sap.ui.commons.MenuItem("menuitem2",{text:"Report Incident"}),
+												new sap.ui.commons.MenuItem("menuitem3",{text:"About"})]})
+										})],
+			worksetItemSelected: function(oEvent){
+				var sId = oEvent.getParameter("id");
+				var oShell = oEvent.oSource;
+				switch (sId) {
+				case "WI_home":
+					oShell.setContent(oSplitterV);
+					break;
+				case "WI_1_1":
+					oShell.setContent(oSplitterV);
+					break;
+				case "WI_1_2":
+					oShell.setContent(oSplitterV);
+					break;
+				case "WI_1_3":
+					oShell.setContent(oSplitterV);
+					break;
+				case "WI_API":
+					oShell.setContent(oSplitterV);
+					break;
+				default:
+					break;
+				}
+			},
+			paneBarItemSelected: function(oEvent){
+				var sKey = oEvent.getParameter("key");
+				var oShell = oEvent.oSource;
+				switch (sKey) {
+				case "pi_date":
+					var oDate = new Date();
+					oShell.setPaneContent(new sap.ui.commons.TextView({text:oDate.toLocaleString()}), true);
+					break;
+				case "pi_browser":
+					oShell.setPaneContent(new sap.ui.commons.TextView({text:"You browser provides the following information:\n"+navigator.userAgent}), true);
+					break;
+				default:
+					break;
+				}
+			},
+			logout:function(){
+				alert("Logout Button has been clicked.\nThe application can now do whatever is required.");
+			},
+		 	search:function(oEvent){
+		 		alert("Search triggered: " + oEvent.getParameter("text"));
+		 	},
+		 	feedSubmit:function(oEvent){
+		 		alert("Feed entry submitted: " + oEvent.getParameter("text"));
+		 	},
+		 	paneClosed : function(oEvent) {
+		 	    alert("Pane has been closed: " + oEvent.getParameter("id"));
+		 	}
+		}).placeAt("content");
 		
-		myCategorySelector.attachEvent('change', function processCategoryDDSelection(){
-			console.log("In createContent:processCategoryDDSelection funtion: "+myCategorySelector.getLiveValue());
-			
-			if (myCategorySelector.getLiveValue()=="Connector"){
-				//oFormMatrix.removeAllRows();
-				myConnectorAdaptersSelector = getConnectionMatrix( );
-				getAdapterDropDown("connector");
-				createXML("FlowStep", step2list, null, false );
-				myConnectorAdaptersSelector.fireEvent('change');
-			}
-			else if (myCategorySelector.getLiveValue()=="FlowStep"){
-				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
-				oFormMatrix.removeAllRows();
-				//getAdapterDropDown("connector");
-				myFlowStepAdaptersSelector =  getFlowStepMatrix();
-				//oFormMatrix.removeAllRows();
-				addRemoveFlowStepsToRMap();
-				getAdapterDropDown("flowstep");
-				//oFormMatrix.createRow(myFlowStepAdaptersSelector);
-			}
-
-			
-		});
-		myCategorySelector.fireEvent('change');
-	
-		//return oMatrix;
+//		prepareUILayout();
+//		addHeaderInfo();
+//		getTree();
+//		
+//		//adds component dropdown to form matrix
+//		addComponentTypeDropDown();
+//		
+//		myCategorySelector.attachEvent('change', function processCategoryDDSelection(){
+//			console.log("In createContent:processCategoryDDSelection funtion: "+myCategorySelector.getLiveValue());
+//			
+//			if (myCategorySelector.getLiveValue()=="Connector"){
+//				myConnectorAdaptersSelector = getConnectionMatrix( );
+//				getAdapterDropDown("connector");
+//				createXML("FlowStep", step2list, null, false );
+//				myConnectorAdaptersSelector.fireEvent('change');
+//			}
+//			else if (myCategorySelector.getLiveValue()=="FlowStep"){
+//				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+//				oFormMatrix.removeAllRows();
+//				myFlowStepAdaptersSelector =  getFlowStepMatrix();
+//				addRemoveFlowStepsToRMap();
+//				getAdapterDropDown("flowstep");
+//			}
+//
+//			
+//		});
+//		myCategorySelector.fireEvent('change');
+//	
 	}
 	
 	
 
 });
 
+function homepage(){
+	prepareUILayout();
+	addHeaderInfo();
+	getTree();
+	
+	//adds component dropdown to form matrix
+	addComponentTypeDropDown();
+	
+	myCategorySelector.attachEvent('change', function processCategoryDDSelection(){
+		console.log("In createContent:processCategoryDDSelection funtion: "+myCategorySelector.getLiveValue());
+		
+		if (myCategorySelector.getLiveValue()=="Connector"){
+			myConnectorAdaptersSelector = getConnectionMatrix( );
+			getAdapterDropDown("connector");
+			createXML("FlowStep", step2list, null, false );
+			myConnectorAdaptersSelector.fireEvent('change');
+		}
+		else if (myCategorySelector.getLiveValue()=="FlowStep"){
+			createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			oFormMatrix.removeAllRows();
+			myFlowStepAdaptersSelector =  getFlowStepMatrix();
+			addRemoveFlowStepsToRMap();
+			getAdapterDropDown("flowstep");
+		}
+
+		
+	});
+	myCategorySelector.fireEvent('change');
+
+}
 function processDropDownConnector(){
 
 		//now load the adapter xml/json files
