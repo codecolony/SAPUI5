@@ -21,7 +21,8 @@
 	var oSplitterV;
 	var form;
 	var connXML = "\n", FSXML = "\n", RecXML = "\n";
-	var headerkeylist;
+	var headerkeylist, reorderlist, reorderArray;
+	var previousStep = "none";
 	
 function prepareUILayout(){
 
@@ -186,6 +187,7 @@ function addFlowStep(stepName){
 	var dItem = new sap.ui.core.ListItem(stepName);
 	dItem.setText(stepName);
 	myFlowStepAdaptersSelector.addItem(dItem);
+	//getFlowSteps();
 }
 
 function getCategorySelector() {
@@ -551,34 +553,6 @@ sap.ui.jsview("integrate.test", {
 		 	}
 		}).placeAt("content");
 		
-//		prepareUILayout();
-//		addHeaderInfo();
-//		getTree();
-//		
-//		//adds component dropdown to form matrix
-//		addComponentTypeDropDown();
-//		
-//		myCategorySelector.attachEvent('change', function processCategoryDDSelection(){
-//			console.log("In createContent:processCategoryDDSelection funtion: "+myCategorySelector.getLiveValue());
-//			
-//			if (myCategorySelector.getLiveValue()=="Connector"){
-//				myConnectorAdaptersSelector = getConnectionMatrix( );
-//				getAdapterDropDown("connector");
-//				createXML("FlowStep", step2list, null, false );
-//				myConnectorAdaptersSelector.fireEvent('change');
-//			}
-//			else if (myCategorySelector.getLiveValue()=="FlowStep"){
-//				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
-//				oFormMatrix.removeAllRows();
-//				myFlowStepAdaptersSelector =  getFlowStepMatrix();
-//				addRemoveFlowStepsToRMap();
-//				getAdapterDropDown("flowstep");
-//			}
-//
-//			
-//		});
-//		myCategorySelector.fireEvent('change');
-//	
 	}
 	
 	
@@ -599,11 +573,34 @@ function homepage(){
 		if (myCategorySelector.getLiveValue()=="Connector"){
 			myConnectorAdaptersSelector = getConnectionMatrix( );
 			getAdapterDropDown("connector");
-			createXML("FlowStep", step2list, null, false );
+			if (previousStep == "sender"){
+				//createXML("Sender", step2list, null, false );
+				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			}
+			else if(previousStep == "flowstep"){
+				createXML("FlowStep", step2list, null, false );
+			}
+			else if(previousStep == "receiver"){
+				//createXML("Receiver", step2list, null, false );
+				createXML("Receiver", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			}
+			
 			myConnectorAdaptersSelector.fireEvent('change');
 		}
 		else if (myCategorySelector.getLiveValue()=="FlowStep"){
-			createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			//createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			if (previousStep == "sender"){
+				//createXML("Sender", step2list, null, false );
+				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			}
+			else if(previousStep == "flowstep"){
+				createXML("FlowStep", step2list, null, false );
+			}
+			else if(previousStep == "receiver"){
+				//createXML("Receiver", step2list, null, false );
+				createXML("Sender", form, myConnectorAdaptersSelector.getLiveValue(), false );
+			}
+			
 			oFormMatrix.removeAllRows();
 			myFlowStepAdaptersSelector =  getFlowStepMatrix();
 			addRemoveFlowStepsToRMap();
@@ -616,59 +613,62 @@ function homepage(){
 
 }
 function processDropDownConnector(){
+	
+	if(previousStep == "none")
+		previousStep = "sender";
 
-		//now load the adapter xml/json files
-		console.log("Inside processDropDownConnector function");
+	//now load the adapter xml/json files
+	console.log("Inside processDropDownConnector function");
+	
+	
+	var adap_type = myConnectorAdaptersSelector.getLiveValue();
+	var fileToLoad;
+	
+	if (adap_type=="IDOC")
+	fileToLoad = "./integrate/datafiles/IDOCMetadata.json";
+	else if (adap_type=="SFTP")
+	fileToLoad = "./integrate/datafiles/SFTPMetadata.json";
+	else if (adap_type=="SOAP")
+	fileToLoad = "./integrate/datafiles/SOAPMetadata.json";
+	
+	console.log(fileToLoad);
+	
+	//xml = new sap.ui.model.xml.XMLModel(fileToLoad);
+	//xmlContents = xml.getXML();
+	
+	var json = new sap.ui.model.json.JSONModel();
+	json.loadData(fileToLoad,null,false);
+	////console.log(json);
+	sap.ui.getCore().setModel(json);  
+	
+	//loop into the parameters to add UI input
+	var oModel =  sap.ui.getCore().getModel();
+	////console.log(oModel);
+	
+	
+	if (adap_type=="SOAP"){
+	attrib_objects = oModel.oData.AdapterTypeMetaData.Attribute;
+	/////console.log(oModel.oData.AdapterTypeMetaData);
+	}
+	else{
+	var oData1 = oModel.getData();
+	//////console.log(oModel.oData);
+	attrib_objects = oData1.Attribute;
+	}
+	
+	if(oFormMatrix != undefined){
+		oFormMatrix.removeAllRows();
 		
-		
-		var adap_type = myConnectorAdaptersSelector.getLiveValue();
-		var fileToLoad;
-		
-		if (adap_type=="IDOC")
-		fileToLoad = "./integrate/datafiles/IDOCMetadata.json";
-		else if (adap_type=="SFTP")
-		fileToLoad = "./integrate/datafiles/SFTPMetadata.json";
-		else if (adap_type=="SOAP")
-		fileToLoad = "./integrate/datafiles/SOAPMetadata.json";
-		
-		console.log(fileToLoad);
-		
-		//xml = new sap.ui.model.xml.XMLModel(fileToLoad);
-		//xmlContents = xml.getXML();
-		
-		var json = new sap.ui.model.json.JSONModel();
-		json.loadData(fileToLoad,null,false);
-		////console.log(json);
-		sap.ui.getCore().setModel(json);  
-		
-		//loop into the parameters to add UI input
-		var oModel =  sap.ui.getCore().getModel();
-		////console.log(oModel);
-		
-		
-		if (adap_type=="SOAP"){
-		attrib_objects = oModel.oData.AdapterTypeMetaData.Attribute;
-		/////console.log(oModel.oData.AdapterTypeMetaData);
-		}
-		else{
-		var oData1 = oModel.getData();
-		//////console.log(oModel.oData);
-		attrib_objects = oData1.Attribute;
-		}
-		
-		if(oFormMatrix != undefined){
-			oFormMatrix.removeAllRows();
-			
-			addComponentTypeDropDown();
-			getConnectionMatrix();
-			getAdapterDropDown("connector");
-//			oFormMatrix.removeRow(oSimpleForm);
-			//oSimpleForm.destroy();
-		}
+		addComponentTypeDropDown();
+		getConnectionMatrix();
+		getAdapterDropDown("connector");
+//		oFormMatrix.removeRow(oSimpleForm);
+		//oSimpleForm.destroy();
+	}
 //
-		showFormAndButtons(attrib_objects, adap_type);
-//		
-};
+	showFormAndButtons(attrib_objects, adap_type);
+//
+	};
 
 function showFormAndButtons(attrib_objects, adap_type){
 	var text = "#text";
@@ -695,16 +695,23 @@ function showFormAndButtons(attrib_objects, adap_type){
 	
 	if (attrib_objects[i].Usage != "optional"){
 	
-	
+	//exclude object defaults
+		textDefaultValue = attrib_objects[i].Default;
+		//console.log(textDefaultValue);
+		if( typeof textDefaultValue === 'object')
+			textDefaultValue = "";
+		else
+			textDefaultValue = attrib_objects[i].Default;
+		
 	textid = "txtView"+adap_type+count;
 	textfield = "txtField"+adap_type+count;
 	if (adap_type=="SOAP"){
 	textGuiLabel = attrib_objects[i].GuiLabels.Label[text];
-	textDefaultValue = attrib_objects[i].Default;
+	//textDefaultValue = attrib_objects[i].Default;
 	}
 	else{
 	textGuiLabel = attrib_objects[i].GuiLabels[0][text];
-	textDefaultValue = attrib_objects[i].Default;
+	//textDefaultValue = attrib_objects[i].Default;
 	}
 	
 	//place a row repeater for lines
@@ -764,10 +771,12 @@ function showFormAndButtons(attrib_objects, adap_type){
 	
 //	oCell.addContent(oSimpleForm);
 //	oFormMatrix.createRow(oCell);
-	oFormMatrix.createRow(oSimpleForm);
+	////////oFormMatrix.createRow(oSimpleForm);
 	
 	var btn;
 	if(oNode3.getIsSelected()){
+		
+		previousStep = "receiver";
 		
 		
 		if(sap.ui.getCore().byId("submit")!=undefined){
@@ -786,7 +795,12 @@ function showFormAndButtons(attrib_objects, adap_type){
 		//oCell.addContent(btn);
 		oFormMatrix.createRow(btn);
 	}
-	
+	else if(oNode1.getIsSelected()){
+		previousStep = "sender";
+	}
+	else if(oNode2.getIsSelected()){
+		previousStep = "flowstep";
+	}
 }
 
 function addRemoveFlowStepsToRMap(){
@@ -796,13 +810,52 @@ function addRemoveFlowStepsToRMap(){
 	addComponentTypeDropDown();
 //	getConnectionMatrix();
 	getFlowStepMatrix();
-	var btn;
-
+	
+	//place for reorder flow steps
+	
+	if(sap.ui.getCore().byId("flowstepslabel")!=undefined){
+		otextview = sap.ui.getCore().byId("flowstepslabel");
+		//otextview.setText("Mapping Type");
+	}
+	else{
+		otextview = new sap.ui.commons.Label("flowstepslabel",{
+		text: "Reorder Flow Steps",
+		tooltip: "Reorder Flow Steps"
+		});
+	}
 	var oCell = new sap.ui.commons.layout.MatrixLayoutCell({
 		colSpan: 2,
 		hAlign: "Left",
 		rowSpan: 2,
 		padding: sap.ui.commons.layout.Padding.End});
+	//get labels for steps 2 list
+	reorderArray = getFlowSteps();
+	
+	
+	if(sap.ui.getCore().byId("flowstepsinput")!=undefined){
+		otextinput = sap.ui.getCore().byId("flowstepsinput");
+	}
+	else{
+		otextinput = new sap.ui.commons.ListBox({
+			items : reorderArray,
+			 
+			});
+		reorderlist = otextinput;
+	}
+	
+	btn = new sap.ui.commons.Button({
+		text: "Move Up",
+		width: "100px",
+		align: "Center",
+		press : function(oEvent){moveFlowStepUp();}
+		});
+	
+	oFormMatrix.createRow(otextview, otextinput, btn);
+	/////
+	
+	var btn;
+
+	
 	
 	if(sap.ui.getCore().byId("addflowstep")!=undefined){
 		
@@ -819,23 +872,50 @@ function addRemoveFlowStepsToRMap(){
 	}
 	oCell.insertContent(btn,0);
 	
-	var btn;
-	if(sap.ui.getCore().byId("removeflowstep")!=undefined){
+//	var btn;
+//	if(sap.ui.getCore().byId("removeflowstep")!=undefined){
+//		
+//		btn  = sap.ui.getCore().byId("removeflowstep");
+//		
+//	}
+//	else{
+//		btn = new sap.ui.commons.Button("removeflowstep",{
+//		text: "Remove Step",
+//		width: "100px",
+//		align: "Center",
+//		press : function(oEvent){removeFlowStepFromRoadMap(myFlowStepAdaptersSelector.getLiveValue());}
+//		});
+//	}
+	
 		
-		btn  = sap.ui.getCore().byId("removeflowstep");
-		
-	}
-	else{
-		btn = new sap.ui.commons.Button("removeflowstep",{
-		text: "Remove Step",
+	//oCell.insertContent(null);
+	//oCell.insertContent(btn,2);
+	btn = new sap.ui.commons.Button({
+		text: "Move Up",
 		width: "100px",
 		align: "Center",
-		press : function(oEvent){removeFlowStepFromRoadMap(myFlowStepAdaptersSelector.getLiveValue());}
+		press : function(oEvent){moveFlowStepUp(reorderlist.getSelectedIndex());}
 		});
-	}
-	oCell.insertContent(null);
-	oCell.insertContent(btn,2);
+	oCell.insertContent(btn,3);
 	
+
+	
+	btn = new sap.ui.commons.Button({
+		text: "Move Down",
+		width: "100px",
+		align: "Center",
+		press : function(oEvent){moveFlowStepDown(reorderlist.getSelectedIndex());}
+		});
+	oCell.insertContent(btn,4);
+	oFormMatrix.createRow(oCell);
+	
+	btn = new sap.ui.commons.Button({
+		text: "Apply Reorder Change",
+		width: "180px",
+		align: "Center",
+		press : function(oEvent){applyReorderChange();}
+		});
+	oCell.insertContent(btn,4);
 	oFormMatrix.createRow(oCell);
 }
 
@@ -982,7 +1062,7 @@ function processTreeFlowSubStep(id){
 //			console.log(step2list[i] +": inner node selected");
 //		}
 //	}
-	
+	previousStep = "flowstep";
 	oFormMatrix.removeAllRows();
 
 	
@@ -1417,32 +1497,23 @@ function processTreeFlowSubStep(id){
 	console.log(idd);
 	getAdapterDropDown(idd);
 	
-//	//console.log("Mapping is the focus");
-//	if(sap.ui.getCore().byId(idd+"adapterlabel")!=undefined){
-//		otextview = sap.ui.getCore().byId(idd+"adapterlabel");
-//		//otextview.setText("Filter Path");
-//	}
-//	else{
-//		otextview = new sap.ui.commons.Label(idd+"adapterlabel",{
-//		text: "Adapter",
-//		tooltip: "Adapter"
-//		});
-//	}
-//	
-//	if(sap.ui.getCore().byId(idd+"adapterinput")!=undefined){
-//		otextinput = sap.ui.getCore().byId(idd+"adapterinput");
-//	}
-//	else{
-//		otextinput = new sap.ui.commons.TextField(idd+"adapterinput", {
-//		//value: textDefaultValue
-//		
-//		});
-//	}
-//	oFormMatrix.createRow(otextview, otextinput);
-//	
-//	//button
-//	btn  = sap.ui.getCore().byId("removeflowstep");
-//	oFormMatrix.createRow(btn);
+	//add remove step dropdown
+	var btn;
+	if(sap.ui.getCore().byId("removeflowstep")!=undefined){
+		
+		btn  = sap.ui.getCore().byId("removeflowstep");
+		
+	}
+	else{
+		btn = new sap.ui.commons.Button("removeflowstep",{
+		text: "Delete This Step!",
+		width: "200px",
+		align: "Center",
+		press : function(oEvent){removeFlowStepFromRoadMap(myFlowStepAdaptersSelector.getLiveValue());}
+		});
+	}
+	oFormMatrix.createRow(btn);
+ //need to add createXML() call?
 }
 
 
@@ -1462,6 +1533,10 @@ function addFlowSteptoRoadMap(stepName){
 
 	step2list.push(stepId);
 	console.log(step2list);
+	
+	//try to reflect instantly in reorder list
+	reorderArray = getFlowSteps();
+	myFlowStepAdaptersSelector.fireEvent('change');
 }
 
 function removeFlowStepFromRoadMap(stepName){
@@ -1486,6 +1561,8 @@ function removeFlowStepFromRoadMap(stepName){
 	}
 	console.log(step2list);
 	oFormMatrix.removeAllRows();
+	reorderArray = getFlowSteps();
+	
 }
 
 function createXML(catgory, inputobjects, liveValue, lastCall){
@@ -1688,8 +1765,12 @@ function createXML(catgory, inputobjects, liveValue, lastCall){
 	else if(catgory=="Receiver")
 		RecXML = xmlFile;
 	
-	if(lastCall == true)
+	if(lastCall == true){
 	console.log("Full XML :\n"+ConnXML+ '\n'+FSXML+ '\n'+ RecXML+"\n</xml>");
+	var content = ConnXML+ '\n'+FSXML+ '\n'+ RecXML+"\n</xml>";
+	var uriContent = "data:application/octet-stream," + encodeURIComponent(content);
+	newWindow=window.open(uriContent, 'neuesDokument');
+	}
 }
 
 function addHeaderKeyToList(id){
@@ -1705,4 +1786,58 @@ function addHeaderKeyToList(id){
 
 function removeHeaderKeyFromList(){
 	headerkeylist.removeItem(headerkeylist.getSelectedItem());
+}
+
+function getFlowSteps(){
+	var list = [];
+	for(obj in step2list){
+		
+		//list.push(sap.ui.getCore().byId(step2list[obj]).getText());
+		list.push(new sap.ui.core.ListItem({text : step2list[obj]}));
+	}
+	reorderArray = list;
+	return list;
+}
+
+function moveFlowStepUp(i){
+	
+	//i is getSelectedIndex()
+	if(i==0) return;
+	var temp = reorderlist.getSelectedItem();
+	var temp2 = reorderlist.removeItem(temp);
+	reorderlist.insertItem(temp, i-1);
+	
+//	//to reflect instantly in UI
+//	temp = reorderArray[i-1];
+//	reorderArray[i-1] = reorderArray[i];
+//	reorderArray[i] = temp;
+}
+
+function moveFlowStepDown(i){
+	if(i==reorderlist.getItems().length-1) return;
+	var temp = reorderlist.getSelectedItem();
+	var temp2 = reorderlist.removeItem(temp);
+	reorderlist.insertItem(temp, i+1);
+}
+
+function applyReorderChange(){
+
+	//console.log(step2list);
+	//console.log(reorderlist.getItems());
+	
+	var list = reorderlist.getItems();
+	var newlist = [];
+	
+	for(i in list){
+		newlist.push(list[i].getText());
+	}
+	
+	step2list = newlist;
+	oNode2.removeAllNodes();
+	var node;
+	for(i in step2list){
+		node = sap.ui.getCore().byId(step2list[i]);
+		oNode2.addNode(node);
+	}
+	
 }
